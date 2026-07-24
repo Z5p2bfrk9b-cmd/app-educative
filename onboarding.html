@@ -69,17 +69,17 @@
     <div id="etape3" class="etape cache">
         <div id="specialites_general" class="cache">
             <h1>Tes spécialités</h1>
-            <label><input type="checkbox" value="maths"> Mathématiques</label>
-            <label><input type="checkbox" value="physique"> Physique-Chimie</label>
-            <label><input type="checkbox" value="svt"> SVT</label>
-            <label><input type="checkbox" value="ses"> SES</label>
-            <label><input type="checkbox" value="hggsp"> HGGSP</label>
-            <label><input type="checkbox" value="hlp"> HLP</label>
-            <label><input type="checkbox" value="nsi"> NSI</label>
-            <label><input type="checkbox" value="llcer"> LLCER</label>
-            <label><input type="checkbox" value="amc"> AMC</label>
-            <label><input type="checkbox" value="arts"> Arts</label>
-            <label><input type="checkbox" value="eppcs"> EPPCS</label>
+            <label><input type="checkbox" value="maths"onchange="limiterSpecialites()"> Mathématiques</label>
+            <label><input type="checkbox" value="physique"onchange="limiterSpecialites()"> Physique-Chimie</label>
+            <label><input type="checkbox" value="svt"onchange="limiterSpecialites()"> SVT</label>
+            <label><input type="checkbox" value="ses"onchange="limiterSpecialites()"> SES</label>
+            <label><input type="checkbox" value="hggsp"onchange="limiterSpecialites()"> HGGSP</label>
+            <label><input type="checkbox" value="hlp"onchange="limiterSpecialites()"> HLP</label>
+            <label><input type="checkbox" value="nsi"onchange="limiterSpecialites()"> NSI</label>
+            <label><input type="checkbox" value="llcer"onchange="limiterSpecialites()"> LLCER</label>
+            <label><input type="checkbox" value="amc"onchange="limiterSpecialites()"> AMC</label>
+            <label><input type="checkbox" value="arts"onchange="limiterSpecialites()"> Arts</label>
+            <label><input type="checkbox" value="eppcs"onchange="limiterSpecialites()"> EPPCS</label>
         </div>
         <div id="filieres_techno" class="cache">
             <h1>Ta filière</h1>
@@ -262,6 +262,20 @@
                 document.getElementById('matieres_pro').classList.remove('cache')
             }
             allerEtape(4)
+        }
+        function limiterSpecialites() {
+            let cases = document.querySelectorAll('#specialites_general input[type="checkbox"]')
+            let nombreCoches = 0
+            cases.forEach(function(uneCase) {
+                if (uneCase.checked) { nombreCoches++ }
+            })
+            cases.forEach(function(uneCase) {
+                if (!uneCase.checked && nombreCoches >= 3) {
+                    uneCase.disabled = true
+                } else {
+                    uneCase.disabled = false
+                }
+            })
         }
     </script>
 </body>
