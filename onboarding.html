@@ -4,24 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EPPIA - Inscription</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background-color: #f0f4ff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .etape { background: white; border-radius: 20px; padding: 30px; width: 100%; max-width: 500px; }
+        .cache { display: none; }
+        h1 { color: #2B4EFF; margin-bottom: 20px; font-size: 1.5rem; }
+        p { color: #7B2BFF; font-weight: bold; margin: 15px 0 8px 0; }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #2B4EFF; border-radius: 10px; font-size: 1rem; }
+        button { width: 100%; padding: 15px; margin-top: 20px; background-color: #2B4EFF; color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer; }
+        button:hover { background-color: #7B2BFF; }
+        label { display: block; margin: 8px 0; font-size: 1rem; color: #333; }
+        label input { width: auto; margin-right: 8px; }
+    </style>
 </head>
 <body>
 
-    <!-- ÉTAPE 1 : Email + mot de passe -->
     <div id="etape1" class="etape">
         <h1>🐓 Bienvenue sur EPPIA</h1>
         <p>Éducation Personnalisée Par IA</p>
+        <input type="text" id="prenom" placeholder="Ton prénom">
         <input type="email" id="email" placeholder="Ton email">
         <input type="password" id="mdp" placeholder="Mot de passe">
-        <input type="text" id="prenom" placeholder="Ton prénom">
-        <button onclick="alert(’JS fonctionne !’);allerEtape(2)">Continuer</button>
+        <button onclick="allerEtape(2)">Continuer</button>
     </div>
 
-    <!-- ÉTAPE 2 : Niveau scolaire -->
     <div id="etape2" class="etape cache">
         <h1>Tu es en quelle classe ?</h1>
-
         <select id="niveau" onchange="afficherClasses()">
             <option value="">-- Choisis ton niveau --</option>
             <option value="college">Collège</option>
@@ -29,8 +38,6 @@
             <option value="lycee_techno">Lycée Technologique</option>
             <option value="lycee_pro">Lycée Professionnel</option>
         </select>
-
-        <!-- Classes Collège -->
         <select id="classes_college" class="cache">
             <option value="">-- Ta classe --</option>
             <option value="6eme">6ème</option>
@@ -38,55 +45,42 @@
             <option value="4eme">4ème</option>
             <option value="3eme">3ème</option>
         </select>
-
-        <!-- Classes Lycée Général -->
         <select id="classes_lycee_general" class="cache">
             <option value="">-- Ta classe --</option>
             <option value="seconde">Seconde</option>
             <option value="premiere">Première</option>
             <option value="terminale">Terminale</option>
         </select>
-
-        <!-- Classes Lycée Technologique -->
         <select id="classes_lycee_techno" class="cache">
             <option value="">-- Ta classe --</option>
             <option value="seconde_techno">Seconde</option>
             <option value="premiere_techno">Première</option>
             <option value="terminale_techno">Terminale</option>
         </select>
-
-        <!-- Classes Lycée Pro -->
         <select id="classes_lycee_pro" class="cache">
             <option value="">-- Ta classe --</option>
             <option value="seconde_pro">Seconde Pro</option>
             <option value="premiere_pro">Première Pro</option>
             <option value="terminale_pro">Terminale Pro</option>
         </select>
-
         <button onclick="afficherEtape3()">Continuer</button>
     </div>
 
-    <!-- ÉTAPE 3 : Filière / Spécialités -->
     <div id="etape3" class="etape cache">
-
-        <!-- Spécialités Lycée Général -->
         <div id="specialites_general" class="cache">
             <h1>Tes spécialités</h1>
-            <p>Choisis tes spécialités (max 3 en Première, 2 en Terminale)</p>
             <label><input type="checkbox" value="maths"> Mathématiques</label>
             <label><input type="checkbox" value="physique"> Physique-Chimie</label>
             <label><input type="checkbox" value="svt"> SVT</label>
             <label><input type="checkbox" value="ses"> SES</label>
-            <label><input type="checkbox" value="hggsp"> HGG</label>
-            <label><input type="checkbox" value="philo"> HLP</label>
+            <label><input type="checkbox" value="hggsp"> HGGSP</label>
+            <label><input type="checkbox" value="hlp"> HLP</label>
             <label><input type="checkbox" value="nsi"> NSI</label>
             <label><input type="checkbox" value="llcer"> LLCER</label>
-            <label><input type="checkbox" value="llcer"> AMC</label>
-            <label><input type="checkbox" value="arts"> Arts(théatre,musique,cinema,...)</label>
-            <label><input type="checkbox" value="eps"> EPPCS</label>
+            <label><input type="checkbox" value="amc"> AMC</label>
+            <label><input type="checkbox" value="arts"> Arts</label>
+            <label><input type="checkbox" value="eppcs"> EPPCS</label>
         </div>
-
-        <!-- Filières Lycée Technologique -->
         <div id="filieres_techno" class="cache">
             <h1>Ta filière</h1>
             <select id="filiere_techno">
@@ -98,8 +92,6 @@
                 <option value="stav">STAV</option>
             </select>
         </div>
-
-        <!-- Filières Lycée Pro -->
         <div id="filieres_pro" class="cache">
             <h1>Ta filière métier</h1>
             <select id="filiere_pro">
@@ -140,16 +132,11 @@
                 </optgroup>
             </select>
         </div>
-
         <button onclick="afficherMatieres()">Continuer</button>
     </div>
 
-    <!-- ÉTAPE 4 : Matières difficiles -->
     <div id="etape4" class="etape cache">
         <h1>Quelles matières te posent problème ?</h1>
-        <p>Choisis toutes celles qui te posent problème</p>
-
-        <!-- Collège -->
         <div id="matieres_college" class="cache">
             <label><input type="checkbox" value="maths"> Mathématiques</label>
             <label><input type="checkbox" value="francais"> Français</label>
@@ -162,57 +149,48 @@
             <label><input type="checkbox" value="technologie"> Technologie</label>
             <label><input type="checkbox" value="arts_plastiques"> Arts Plastiques</label>
             <label><input type="checkbox" value="musique"> Musique</label>
-            <label><input type="checkbox" value="eps_college"> EPS</label>
+            <label><input type="checkbox" value="eps"> EPS</label>
         </div>
-
-        <!-- Lycée Général -->
         <div id="matieres_general" class="cache">
-            <label><input type="checkbox" value="maths"> Mathématiques</label>
+            <p>Matières communes</p>
             <label><input type="checkbox" value="francais"> Français</label>
             <label><input type="checkbox" value="histoire"> Histoire-Géographie</label>
-            <label><input type="checkbox" value="svt"> SVT</label>
-            <label><input type="checkbox" value="physique"> Physique-Chimie</label>
             <label><input type="checkbox" value="anglais"> Anglais</label>
-            <label><input type="checkbox" value="ses"> SES</label>
             <label><input type="checkbox" value="philo"> Philosophie</label>
-            <label><input type="checkbox" value="nsi"> NSI</label>
+            <label><input type="checkbox" value="eps"> EPS</label>
             <p>Tes spécialités</p>
             <label><input type="checkbox" value="maths"> Mathématiques</label>
             <label><input type="checkbox" value="physique"> Physique-Chimie</label>
             <label><input type="checkbox" value="svt"> SVT</label>
             <label><input type="checkbox" value="ses"> SES</label>
-            <label><input type="checkbox" value="hggsp"> Histoire-Géo Spé</label>
-            <label><input type="checkbox" value="philo_spe"> Humanités-Philo</label>
+            <label><input type="checkbox" value="hggsp"> HGGSP</label>
+            <label><input type="checkbox" value="hlp"> HLP</label>
             <label><input type="checkbox" value="nsi"> NSI</label>
             <label><input type="checkbox" value="llcer"> LLCER</label>
-            <label><input type="checkbox" value="arts_spe"> Arts</label>
             <label><input type="checkbox" value="amc"> AMC</label>
+            <label><input type="checkbox" value="arts"> Arts</label>
             <label><input type="checkbox" value="eppcs"> EPPCS</label>
         </div>
-
-        <!-- Lycée Techno -->
         <div id="matieres_techno" class="cache">
-            <label><input type="checkbox" value="maths"> Mathématiques</label>
+            <p>Matières communes</p>
             <label><input type="checkbox" value="francais"> Français</label>
+            <label><input type="checkbox" value="maths"> Mathématiques</label>
             <label><input type="checkbox" value="anglais"> Anglais</label>
             <label><input type="checkbox" value="histoire"> Histoire-Géographie</label>
             <label><input type="checkbox" value="philo"> Philosophie</label>
-            <p>Matières spécifiques STMG</p>
+            <p>Matières spécifiques</p>
             <label><input type="checkbox" value="management"> Management</label>
             <label><input type="checkbox" value="economie"> Économie-Droit</label>
             <label><input type="checkbox" value="sciences_gestion"> Sciences de Gestion</label>
-            <p>Matières spécifiques STI2D</p>
-            <label><input type="checkbox" value="sti2d"> Ingénierie</label>
+            <label><input type="checkbox" value="ingenierie"> Ingénierie</label>
             <label><input type="checkbox" value="physique_chimie"> Physique-Chimie</label>
-            <p>Matières spécifiques ST2S</p>
             <label><input type="checkbox" value="biologie"> Biologie</label>
             <label><input type="checkbox" value="sciences_sociales"> Sciences Sociales</label>
         </div>
-
-        <!-- Lycée Pro -->
         <div id="matieres_pro" class="cache">
-            <label><input type="checkbox" value="maths"> Mathématiques</label>
+            <p>Matières générales</p>
             <label><input type="checkbox" value="francais"> Français</label>
+            <label><input type="checkbox" value="maths"> Mathématiques</label>
             <label><input type="checkbox" value="anglais"> Anglais</label>
             <label><input type="checkbox" value="histoire"> Histoire-Géographie</label>
             <label><input type="checkbox" value="eps"> EPS</label>
@@ -221,77 +199,70 @@
             <label><input type="checkbox" value="culture_generale"> Culture Générale</label>
             <label><input type="checkbox" value="pratique_pro"> Pratique Professionnelle</label>
         </div>
-
-        <button onclick="window.location.href='accueil.html'">
-            Commencer EPPIA ! 🐓
-        </button>
+        <button onclick="window.location.href='accueil.html'">Commencer EPPIA ! 🐓</button>
     </div>
-    
-<script>
-function allerEtape(numero) {
-    document.querySelectorAll('.etape').forEach(function(etape) {
-        etape.classList.add('cache')
-    })
-    document.getElementById('etape' + numero).classList.remove('cache')
-}
 
-function afficherClasses() {
-    let niveau = document.getElementById('niveau').value
-    document.getElementById('classes_college').classList.add('cache')
-    document.getElementById('classes_lycee_general').classList.add('cache')
-    document.getElementById('classes_lycee_techno').classList.add('cache')
-    document.getElementById('classes_lycee_pro').classList.add('cache')
-    if (niveau === 'college') {
-        document.getElementById('classes_college').classList.remove('cache')
-    } else if (niveau === 'lycee_general') {
-        document.getElementById('classes_lycee_general').classList.remove('cache')
-    } else if (niveau === 'lycee_techno') {
-        document.getElementById('classes_lycee_techno').classList.remove('cache')
-    } else if (niveau === 'lycee_pro') {
-        document.getElementById('classes_lycee_pro').classList.remove('cache')
-    }
-}
+    <script>
+        function allerEtape(numero) {
+            document.querySelectorAll('.etape').forEach(function(etape) {
+                etape.classList.add('cache')
+            })
+            document.getElementById('etape' + numero).classList.remove('cache')
+        }
 
-function afficherEtape3() {
-    let niveau = document.getElementById('niveau').value
-    document.getElementById('specialites_general').classList.add('cache')
-    document.getElementById('filieres_techno').classList.add('cache')
-    document.getElementById('filieres_pro').classList.add('cache')
-    if (niveau === 'lycee_general') {
-        document.getElementById('specialites_general').classList.remove('cache')
-        allerEtape(3)
-    } else if (niveau === 'lycee_techno') {
-        document.getElementById('filieres_techno').classList.remove('cache')
-        allerEtape(3)
-    } else if (niveau === 'lycee_pro') {
-        document.getElementById('filieres_pro').classList.remove('cache')
-        allerEtape(3)
-    } else if (niveau === 'college') {
-        afficherMatieres()
-    }
-}
+        function afficherClasses() {
+            let niveau = document.getElementById('niveau').value
+            document.getElementById('classes_college').classList.add('cache')
+            document.getElementById('classes_lycee_general').classList.add('cache')
+            document.getElementById('classes_lycee_techno').classList.add('cache')
+            document.getElementById('classes_lycee_pro').classList.add('cache')
+            if (niveau === 'college') {
+                document.getElementById('classes_college').classList.remove('cache')
+            } else if (niveau === 'lycee_general') {
+                document.getElementById('classes_lycee_general').classList.remove('cache')
+            } else if (niveau === 'lycee_techno') {
+                document.getElementById('classes_lycee_techno').classList.remove('cache')
+            } else if (niveau === 'lycee_pro') {
+                document.getElementById('classes_lycee_pro').classList.remove('cache')
+            }
+        }
 
-function afficherMatieres() {
-    let niveau = document.getElementById('niveau').value
-    document.getElementById('matieres_college').classList.add('cache')
-    document.getElementById('matieres_general').classList.add('cache')
-    document.getElementById('matieres_techno').classList.add('cache')
-    document.getElementById('matieres_pro').classList.add('cache')
-    if (niveau === 'college') {
-        document.getElementById('matieres_college').classList.remove('cache')
-    } else if (niveau === 'lycee_general') {
-        document.getElementById('matieres_general').classList.remove('cache')
-    } else if (niveau === 'lycee_techno') {
-        document.getElementById('matieres_techno').classList.remove('cache')
-    } else if (niveau === 'lycee_pro') {
-        document.getElementById('matieres_pro').classList.remove('cache')
-    }
-    allerEtape(4)
-}
-</script>
+        function afficherEtape3() {
+            let niveau = document.getElementById('niveau').value
+            document.getElementById('specialites_general').classList.add('cache')
+            document.getElementById('filieres_techno').classList.add('cache')
+            document.getElementById('filieres_pro').classList.add('cache')
+            if (niveau === 'lycee_general') {
+                document.getElementById('specialites_general').classList.remove('cache')
+                allerEtape(3)
+            } else if (niveau === 'lycee_techno') {
+                document.getElementById('filieres_techno').classList.remove('cache')
+                allerEtape(3)
+            } else if (niveau === 'lycee_pro') {
+                document.getElementById('filieres_pro').classList.remove('cache')
+                allerEtape(3)
+            } else if (niveau === 'college') {
+                afficherMatieres()
+            }
+        }
 
-    
+        function afficherMatieres() {
+            let niveau = document.getElementById('niveau').value
+            document.getElementById('matieres_college').classList.add('cache')
+            document.getElementById('matieres_general').classList.add('cache')
+            document.getElementById('matieres_techno').classList.add('cache')
+            document.getElementById('matieres_pro').classList.add('cache')
+            if (niveau === 'college') {
+                document.getElementById('matieres_college').classList.remove('cache')
+            } else if (niveau === 'lycee_general') {
+                document.getElementById('matieres_general').classList.remove('cache')
+            } else if (niveau === 'lycee_techno') {
+                document.getElementById('matieres_techno').classList.remove('cache')
+            } else if (niveau === 'lycee_pro') {
+                document.getElementById('matieres_pro').classList.remove('cache')
+            }
+            allerEtape(4)
+        }
+    </script>
 </body>
 </html>
-
- 
