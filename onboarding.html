@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPPIA - Inscription</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ÉTAPE 1 : Email + mot de passe -->
+    <div id="etape1" class="etape">
+        <h1>🐓 Bienvenue sur EPPIA</h1>
+        <p>Éducation Personnalisée Par IA</p>
+        <input type="email" id="email" placeholder="Ton email">
+        <input type="password" id="mdp" placeholder="Mot de passe">
+        <input type="text" id="prenom" placeholder="Ton prénom">
+        <button onclick="allerEtape(2)">Continuer</button>
+    </div>
+
+    <!-- ÉTAPE 2 : Niveau scolaire -->
+    <div id="etape2" class="etape cache">
+        <h1>Tu es en quelle classe ?</h1>
+
+        <select id="niveau" onchange="afficherClasses()">
+            <option value="">-- Choisis ton niveau --</option>
+            <option value="college">Collège</option>
+            <option value="lycee_general">Lycée Général</option>
+            <option value="lycee_techno">Lycée Technologique</option>
+            <option value="lycee_pro">Lycée Professionnel</option>
+        </select>
+
+        <!-- Classes Collège -->
+        <select id="classes_college" class="cache">
+            <option value="">-- Ta classe --</option>
+            <option value="6eme">6ème</option>
+            <option value="5eme">5ème</option>
+            <option value="4eme">4ème</option>
+            <option value="3eme">3ème</option>
+        </select>
+
+        <!-- Classes Lycée Général -->
+        <select id="classes_lycee_general" class="cache">
+            <option value="">-- Ta classe --</option>
+            <option value="seconde">Seconde</option>
+            <option value="premiere">Première</option>
+            <option value="terminale">Terminale</option>
+        </select>
+
+        <!-- Classes Lycée Technologique -->
+        <select id="classes_lycee_techno" class="cache">
+            <option value="">-- Ta classe --</option>
+            <option value="seconde_techno">Seconde</option>
+            <option value="premiere_techno">Première</option>
+            <option value="terminale_techno">Terminale</option>
+        </select>
+
+        <!-- Classes Lycée Pro -->
+        <select id="classes_lycee_pro" class="cache">
+            <option value="">-- Ta classe --</option>
+            <option value="seconde_pro">Seconde Pro</option>
+            <option value="premiere_pro">Première Pro</option>
+            <option value="terminale_pro">Terminale Pro</option>
+        </select>
+
+        <button onclick="allerEtape(3)">Continuer</button>
+    </div>
+
+    <!-- ÉTAPE 3 : Filière / Spécialités -->
+    <div id="etape3" class="etape cache">
+
+        <!-- Spécialités Lycée Général -->
+        <div id="specialites_general" class="cache">
+            <h1>Tes spécialités</h1>
+            <p>Choisis tes spécialités (max 3 en Première, 2 en Terminale)</p>
+            <label><input type="checkbox" value="maths"> Mathématiques</label>
+            <label><input type="checkbox" value="physique"> Physique-Chimie</label>
+            <label><input type="checkbox" value="svt"> SVT</label>
+            <label><input type="checkbox" value="ses"> SES</label>
+            <label><input type="checkbox" value="hggsp"> Histoire-Géo</label>
+            <label><input type="checkbox" value="philo"> Humanités-Philo</label>
+            <label><input type="checkbox" value="nsi"> NSI</label>
+            <label><input type="checkbox" value="llcer"> LLCER</label>
+            <label><input type="checkbox" value="arts"> Arts</label>
+            <label><input type="checkbox" value="eps"> EPS</label>
+        </div>
+
+        <!-- Filières Lycée Technologique -->
+        <div id="filieres_techno" class="cache">
+            <h1>Ta filière</h1>
+            <select id="filiere_techno">
+                <option value="">-- Ta filière --</option>
+                <option value="stmg">STMG</option>
+                <option value="sti2d">STI2D</option>
+                <option value="st2s">ST2S</option>
+                <option value="stl">STL</option>
+                <option value="stav">STAV</option>
+            </select>
+        </div>
+
+        <!-- Filières Lycée Pro -->
+        <div id="filieres_pro" class="cache">
+            <h1>Ta filière métier</h1>
+            <select id="filiere_pro">
+                <option value="">-- Ta filière --</option>
+                <optgroup label="Commerce & Gestion">
+                    <option value="vente">Vente</option>
+                    <option value="commerce">Commerce</option>
+                    <option value="comptabilite">Comptabilité</option>
+                    <option value="arcu">Accueil / ARCU</option>
+                </optgroup>
+                <optgroup label="Bâtiment & Travaux">
+                    <option value="maconnerie">Maçonnerie</option>
+                    <option value="electricite">Électricité</option>
+                    <option value="plomberie">Plomberie</option>
+                    <option value="menuiserie">Menuiserie</option>
+                </optgroup>
+                <optgroup label="Restauration & Hôtellerie">
+                    <option value="cuisine">Cuisine</option>
+                    <option value="service">Service en salle</option>
+                    <option value="hebergement">Hébergement</option>
+                </optgroup>
+                <optgroup label="Santé & Social">
+                    <option value="assp">ASSP</option>
+                    <option value="sapat">SAPAT</option>
+                </optgroup>
+                <optgroup label="Numérique & Informatique">
+                    <option value="sn">Systèmes Numériques</option>
+                    <option value="ciel">CIEL</option>
+                </optgroup>
+                <optgroup label="Mécanique & Auto">
+                    <option value="maintenance_auto">Maintenance Véhicules</option>
+                    <option value="carrosserie">Carrosserie</option>
+                </optgroup>
+                <optgroup label="Mode & Beauté">
+                    <option value="coiffure">Coiffure</option>
+                    <option value="esthetique">Esthétique</option>
+                    <option value="couture">Couture</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <button onclick="allerEtape(4)">Continuer</button>
+    </div>
+
+    <!-- ÉTAPE 4 : Matières difficiles -->
+    <div id="etape4" class="etape cache">
+        <h1>Quelles matières te posent problème ?</h1>
+        <p>Choisis toutes celles qui te posent problème</p>
+
+        <!-- Collège -->
+        <div id="matieres_college" class="cache">
+            <label><input type="checkbox" value="maths"> Mathématiques</label>
+            <label><input type="checkbox" value="francais"> Français</label>
+            <label><input type="checkbox" value="histoire"> Histoire-Géographie</label>
+            <label><input type="checkbox" value="svt"> SVT</label>
+            <label><input type="checkbox" value="physique"> Physique-Chimie</label>
+            <label><input type="checkbox" value="anglais"> Anglais</label>
+            <label><input type="checkbox" value="espagnol"> Espagnol</label>
+        </div>
+
+        <!-- Lycée Général -->
+        <div id="matieres_general" class="cache">
+            <label><input type="checkbox" value="maths"> Mathématiques</label>
+            <label><input type="checkbox" value="francais"> Français</label>
+            <label><input type="checkbox" value="histoire"> Histoire-Géographie</label>
+            <label><input type="checkbox" value="svt"> SVT</label>
+            <label><input type="checkbox" value="physique"> Physique-Chimie</label>
+            <label><input type="checkbox" value="anglais"> Anglais</label>
+            <label><input type="checkbox" value="ses"> SES</label>
+            <label><input type="checkbox" value="philo"> Philosophie</label>
+            <label><input type="checkbox" value="nsi"> NSI</label>
+        </div>
+
+        <!-- Lycée Techno -->
+        <div id="matieres_techno" class="cache">
+            <label><input type="checkbox" value="maths"> Mathématiques</label>
+            <label><input type="checkbox" value="francais"> Français</label>
+            <label><input type="checkbox" value="anglais"> Anglais</label>
+            <label><input type="checkbox" value="management"> Management</label>
+            <label><input type="checkbox" value="economie"> Économie</label>
+            <label><input type="checkbox" value="droit"> Droit</label>
+        </div>
+
+        <!-- Lycée Pro -->
+        <div id="matieres_pro" class="cache">
+            <label><input type="checkbox" value="maths"> Mathématiques</label>
+            <label><input type="checkbox" value="francais"> Français</label>
+            <label><input type="checkbox" value="anglais"> Anglais</label>
+            <label><input type="checkbox" value="psp"> PSP</label>
+            <label><input type="checkbox" value="co"> Culture Générale</label>
+        </div>
+
+        <button onclick="window.location.href='accueil.html'">
+            Commencer EPPIA ! 🐓
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+ 
