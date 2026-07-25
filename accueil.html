@@ -1,52 +1,322 @@
-<!Doctype html>
-  <head>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width= device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPPIA - Accueil</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { background-color: #f0f4ff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .etape { background: white; border-radius: 20px; padding: 30px; width: 100%; max-width: 500px; }
-        .cache { display: none; }
-        h1 { color: #2B4EFF; margin-bottom: 20px; font-size: 1.5rem; }
-        p { color: #7B2BFF; font-weight: bold; margin: 15px 0 8px 0; }
-        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #2B4EFF; border-radius: 10px; font-size: 1rem; }
-        button { width: 100%; padding: 15px; margin-top: 20px; background-color: #2B4EFF; color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer; }
-        button:hover { background-color: #7B2BFF; }
-        label { display: block; margin: 8px 0; font-size: 1rem; color: #333; }
-        label input { width: auto; margin-right: 8px; }
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
+
+        body {
+            background: #f0eeff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(160deg, #7b5fff 0%, #2b4eff 100%);
+            padding: 50px 20px 24px;
+            border-radius: 0 0 28px 28px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .greeting { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.7); }
+        .username { font-size: 24px; font-weight: 900; color: #fff; }
+
+        .streak {
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .progress-card {
+            background: rgba(255,255,255,0.15);
+            border-radius: 16px;
+            padding: 12px 14px;
+        }
+
+        .progress-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 8px;
+        }
+
+        .progress-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 4px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 45%;
+            background: #fff;
+            border-radius: 4px;
+        }
+
+        .progress-pct {
+            font-size: 13px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        /* SECTION TITRE */
+        .section-title {
+            padding: 20px 20px 12px;
+            font-size: 16px;
+            font-weight: 800;
+            color: #333;
+        }
+
+        /* BULLES MATIÈRES */
+        .bubbles {
+            padding: 0 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .bubble {
+            border-radius: 20px;
+            padding: 16px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.15s, box-shadow 0.15s;
+            flex: 1;
+            min-width: 130px;
+        }
+
+        .bubble:active {
+            transform: scale(0.97);
+        }
+
+        .bubble:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+
+        .bubble-maths {
+            background: #eef0ff;
+            border-color: #d0d5ff;
+        }
+
+        .bubble-svt {
+            background: #e8faf2;
+            border-color: #b8f0d8;
+        }
+
+        .bubble-francais {
+            background: #fff0f0;
+            border-color: #ffd0d0;
+            flex: 1 1 100%;
+        }
+
+        .bubble-physique {
+            background: #f5eeff;
+            border-color: #dcc8ff;
+        }
+
+        .bubble-histoire {
+            background: #fff8e8;
+            border-color: #ffe8a0;
+            flex: 1 1 100%;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .bubble-anglais {
+            background: #e8f4ff;
+            border-color: #b8d8ff;
+        }
+
+        .bubble-emoji { font-size: 26px; }
+
+        .bubble-name {
+            font-size: 13px;
+            font-weight: 800;
+            color: #333;
+        }
+
+        .bubble-chap {
+            font-size: 11px;
+            font-weight: 600;
+            color: #999;
+        }
+
+        .bubble-bar {
+            height: 4px;
+            background: rgba(0,0,0,0.08);
+            border-radius: 2px;
+            margin-top: 4px;
+        }
+
+        .bubble-fill {
+            height: 100%;
+            border-radius: 2px;
+        }
+
+        .fill-maths { background: #7b5fff; width: 45%; }
+        .fill-svt { background: #00c97a; width: 70%; }
+        .fill-francais { background: #ff4757; width: 30%; }
+        .fill-physique { background: #9b59b6; width: 20%; }
+        .fill-histoire { background: #f39c12; width: 60%; }
+        .fill-anglais { background: #3498db; width: 50%; }
+
+        /* BOTTOM NAV */
+        .nav {
+            position: sticky;
+            bottom: 0;
+            background: #fff;
+            border-top: 2px solid #f0eeff;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 16px;
+            margin-top: 20px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 6px 16px;
+            border-radius: 14px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .nav-item.active { background: #f0eeff; }
+        .nav-icon { font-size: 22px; }
+        .nav-label { font-size: 10px; font-weight: 700; color: #ccc; }
+        .nav-item.active .nav-label { color: #7b5fff; }
     </style>
-  </head>
-  <body>
-    <nav>
-      <a href="onboarding.html"></a>
-      <a href="actualités.html"></a>
-      <a href="paratgely.html"></a>
-      <a href="profil.html"></a>
-      
-      <!-- Étape 4 : Matières a étudier -->
-      <div id="etap1" class="etape">
-        
-        <!--Collège -->
-        <select>
-          <option>Français</option>
-          <option>Mathématique</option>
-          <option>Histoire-Géographie</option>
-          <option>Anglais</option>
-          <option>Espagnol</option>
-          <option>Allemand</option>
-          <option>Physique-Chimie</option>
-          <option>Technologie</option>
-          <option>Arts Plastiques</option>
-          <option>Musique</option>
-          <option>Eps</option>
-          
-        </select>
-      </div>
-      
-      <!-- Lycée Général -->
-      <div id="matiere_general" class="cache">
-        
-      </div>
-    </nav>
-    
-  </body>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-top">
+            <div>
+                <div class="greeting">Bonsoir 👋</div>
+                <div class="username">Maya</div>
+            </div>
+            <div class="streak">🔥 7 jours</div>
+        </div>
+        <div class="progress-card">
+            <div class="progress-label">Progression cette semaine</div>
+            <div class="progress-row">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="progress-pct">45%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MATIÈRES -->
+    <div class="section-title">Tes matières 📚</div>
+
+    <div class="bubbles">
+
+        <div class="bubble bubble-maths" onclick="window.location.href='cours.html'">
+            <div class="bubble-emoji">📐</div>
+            <div class="bubble-name">Mathématiques</div>
+            <div class="bubble-chap">3 chapitres</div>
+            <div class="bubble-bar"><div class="bubble-fill fill-maths"></div></div>
+        </div>
+
+        <div class="bubble bubble-svt" onclick="window.location.href='cours.html'">
+            <div class="bubble-emoji">🌿</div>
+            <div class="bubble-name">SVT</div>
+            <div class="bubble-chap">2 chapitres</div>
+            <div class="bubble-bar"><div class="bubble-fill fill-svt"></div></div>
+        </div>
+
+        <div class="bubble bubble-physique" onclick="window.location.href='cours.html'">
+            <div class="bubble-emoji">⚗️</div>
+            <div class="bubble-name">Physique-Chimie</div>
+            <div class="bubble-chap">1 chapitre</div>
+            <div class="bubble-bar"><div class="bubble-fill fill-physique"></div></div>
+        </div>
+
+        <div class="bubble bubble-anglais" onclick="window.location.href='cours.html'">
+            <div class="bubble-emoji">🇬🇧</div>
+            <div class="bubble-name">Anglais</div>
+            <div class="bubble-chap">2 chapitres</div>
+            <div class="bubble-bar"><div class="bubble-fill fill-anglais"></div></div>
+        </div>
+
+        <div class="bubble bubble-francais" onclick="window.location.href='cours.html'">
+            <div>
+                <div class="bubble-emoji">📖</div>
+                <div class="bubble-name">Français</div>
+                <div class="bubble-chap">4 chapitres · 30%</div>
+            </div>
+            <div class="bubble-bar" style="width:80px; margin:0;">
+                <div class="bubble-fill fill-francais"></div>
+            </div>
+        </div>
+
+        <div class="bubble bubble-histoire" onclick="window.location.href='cours.html'">
+            <div>
+                <div class="bubble-emoji">🗺️</div>
+                <div class="bubble-name">Histoire-Géographie</div>
+                <div class="bubble-chap">2 chapitres · 60%</div>
+            </div>
+            <div class="bubble-bar" style="width:80px; margin:0;">
+                <div class="bubble-fill fill-histoire"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- NAV -->
+    <div class="nav">
+        <a class="nav-item active" href="accueil.html">
+            <div class="nav-icon">🏠</div>
+            <div class="nav-label">Accueil</div>
+        </a>
+        <a class="nav-item" href="cours.html">
+            <div class="nav-icon">📚</div>
+            <div class="nav-label">Cours</div>
+        </a>
+        <a class="nav-item" href="progression.html">
+            <div class="nav-icon">📈</div>
+            <div class="nav-label">Progrès</div>
+        </a>
+        <a class="nav-item" href="profil.html">
+            <div class="nav-icon">👤</div>
+            <div class="nav-label">Profil</div>
+        </a>
+    </div>
+
+</body>
+</html>
