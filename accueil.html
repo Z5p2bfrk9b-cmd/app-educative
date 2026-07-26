@@ -10,60 +10,60 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
 
         body {
-            background: #f0eeff;
+            background: #f8f9ff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             max-width: 500px;
             margin: 0 auto;
+            padding-bottom: 80px;
         }
 
+        /* HEADER COMPACT */
         .header {
-            background: linear-gradient(160deg, #7b5fff 0%, #2b4eff 100%);
-            padding: 50px 20px 24px;
-            border-radius: 0 0 28px 28px;
-        }
-
-        .header-top {
+            background: linear-gradient(160deg, #1a1aff 0%, #0000cc 100%);
+            padding: 44px 16px 14px;
+            border-radius: 0 0 20px 20px;
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 16px;
         }
 
-        .greeting { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.7); }
-        .username { font-size: 24px; font-weight: 900; color: #fff; }
+        .header-left { display: flex; flex-direction: column; gap: 1px; }
+        .greeting { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.65); }
+        .username { font-size: 18px; font-weight: 900; color: #fff; }
+
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
 
         .streak {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
             border-radius: 20px;
-            padding: 6px 14px;
-            font-size: 13px;
+            padding: 3px 10px;
+            font-size: 11px;
             font-weight: 800;
             color: #fff;
-        }
-
-        .progress-card {
-            background: #00007a;
-            border-radius: 12px;
-            padding: 5px 10px;
-        }
-
-        .progress-label {
-            font-size: 10px;
-            font-weight: 700;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 4px;
         }
 
         .progress-row {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+        }
+
+        .progress-label {
+            font-size: 9px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.65);
         }
 
         .progress-bar {
-            flex: 1;
+            width: 55px;
             height: 3px;
             background: rgba(255,255,255,0.2);
             border-radius: 2px;
@@ -77,35 +77,36 @@
         }
 
         .progress-pct {
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 800;
             color: #fff;
         }
 
+        /* SECTION TITRE */
         .section-title {
-            padding: 20px 20px 12px;
-            font-size: 16px;
+            padding: 20px 16px 10px;
+            font-size: 15px;
             font-weight: 800;
-            color: #333;
+            color: #222;
         }
 
+        /* BULLES */
         .bubbles {
             padding: 0 16px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            flex: 1;
+            gap: 10px;
         }
 
         .bubble {
             border-radius: 50px;
-            padding: 8px 18px;
+            padding: 10px 18px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             cursor: pointer;
-            border: 2px solid transparent;
-            width: 60%;
+            border: 1.5px solid transparent;
+            width: 65%;
             transition: transform 0.15s, box-shadow 0.15s;
         }
 
@@ -116,36 +117,56 @@
         .bubble:nth-child(5) { align-self: center; }
         .bubble:nth-child(6) { align-self: flex-end; }
 
-        .bubble:active { transform: scale(0.97); }
         .bubble:hover {
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
             transform: translateY(-2px);
         }
 
-        .bubble-maths { background: #eef0ff; border-color: #d0d5ff; }
-        .bubble-svt { background: #e8faf2; border-color: #b8f0d8; }
-        .bubble-francais { background: #fff0f0; border-color: #ffd0d0; }
-        .bubble-physique { background: #f5eeff; border-color: #dcc8ff; }
-        .bubble-histoire { background: #fff8e8; border-color: #ffe8a0; }
-        .bubble-anglais { background: #e8f4ff; border-color: #b8d8ff; }
+        .bubble:active { transform: scale(0.97); }
 
-        .bubble-emoji { font-size: 20px; flex-shrink: 0; }
+        /* COULEURS BLEU BLANC ROUGE UNIQUEMENT */
+        .bubble-maths { background: #fff; border-color: #0000cc; }
+        .bubble-svt { background: #fff0f0; border-color: #cc0000; }
+        .bubble-francais { background: #fff; border-color: #0000cc; }
+        .bubble-physique { background: #fff0f0; border-color: #cc0000; }
+        .bubble-histoire { background: #fff; border-color: #0000cc; }
+        .bubble-anglais { background: #fff0f0; border-color: #cc0000; }
+
+        /* PLACEHOLDER IMAGE */
+        .bubble-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #999;
+            font-weight: 700;
+        }
 
         .bubble-name {
             font-size: 13px;
             font-weight: 800;
-            color: #333;
+            color: #222;
+            flex: 1;
         }
 
+        /* NAV BAS */
         .nav {
-            position: sticky;
+            position: fixed;
             bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 500px;
             background: #fff;
-            border-top: 2px solid #f0eeff;
+            border-top: 1px solid #eee;
             display: flex;
             justify-content: space-around;
             padding: 10px 0 16px;
-            margin-top: 20px;
         }
 
         .nav-item {
@@ -153,31 +174,48 @@
             flex-direction: column;
             align-items: center;
             gap: 3px;
-            padding: 6px 16px;
-            border-radius: 14px;
+            padding: 6px 10px;
+            border-radius: 12px;
             cursor: pointer;
             text-decoration: none;
         }
 
-        .nav-item.active { background: #f0eeff; }
-        .nav-icon { font-size: 22px; }
-        .nav-label { font-size: 10px; font-weight: 700; color: #ccc; }
-        .nav-item.active .nav-label { color: #7b5fff; }
+        .nav-item.active { background: #f0f0ff; }
+
+        /* ICÔNES LIGNES FINES SVG */
+        .nav-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: #bbb;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .nav-item.active svg { stroke: #0000cc; }
+
+        .nav-label {
+            font-size: 9px;
+            font-weight: 700;
+            color: #bbb;
+        }
+
+        .nav-item.active .nav-label { color: #0000cc; }
     </style>
 </head>
 <body>
 
+    <!-- HEADER -->
     <div class="header">
-        <div class="header-top">
-            <div>
-                <div class="greeting">Bonsoir 👋</div>
-                <div class="username">Maya</div>
-            </div>
-            <div class="streak">🔥 7 jours</div>
+        <div class="header-left">
+            <div class="greeting">Bonsoir</div>
+            <div class="username">Maya</div>
         </div>
-        <div class="progress-card">
-            <div class="progress-label">Progression cette semaine</div>
+        <div class="header-right">
+            <div class="streak">7 jours</div>
             <div class="progress-row">
+                <div class="progress-label">Progression</div>
                 <div class="progress-bar">
                     <div class="progress-fill"></div>
                 </div>
@@ -186,59 +224,97 @@
         </div>
     </div>
 
-    <div class="section-title">Tes matières 📚</div>
+    <!-- MATIÈRES -->
+    <div class="section-title">Tes matières</div>
 
     <div class="bubbles">
 
         <div class="bubble bubble-maths" onclick="window.location.href='cours.html'">
-            <div class="bubble-emoji">📐</div>
+            <div class="bubble-img">IMG</div>
             <div class="bubble-name">Mathématiques</div>
         </div>
 
         <div class="bubble bubble-svt" onclick="window.location.href='cours.html'">
-            <div class="bubble-emoji">🌿</div>
+            <div class="bubble-img">IMG</div>
             <div class="bubble-name">SVT</div>
         </div>
 
         <div class="bubble bubble-physique" onclick="window.location.href='cours.html'">
-            <div class="bubble-emoji">⚗️</div>
+            <div class="bubble-img">IMG</div>
             <div class="bubble-name">Physique-Chimie</div>
         </div>
 
         <div class="bubble bubble-anglais" onclick="window.location.href='cours.html'">
-            <div class="bubble-emoji">🇬🇧</div>
+            <div class="bubble-img">IMG</div>
             <div class="bubble-name">Anglais</div>
         </div>
 
         <div class="bubble bubble-francais" onclick="window.location.href='cours.html'">
-            <div class="bubble-emoji">📖</div>
+            <div class="bubble-img">IMG</div>
             <div class="bubble-name">Français</div>
         </div>
 
         <div class="bubble bubble-histoire" onclick="window.location.href='cours.html'">
-            <div class="bubble-emoji">🗺️</div>
+            <div class="bubble-img">IMG</div>
             <div class="bubble-name">Histoire-Géo</div>
         </div>
 
     </div>
 
+    <!-- NAV BAS -->
     <div class="nav">
+
         <a class="nav-item active" href="accueil.html">
-            <div class="nav-icon">🏠</div>
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
             <div class="nav-label">Accueil</div>
         </a>
-        <a class="nav-item" href="cours.html">
-            <div class="nav-icon">📚</div>
-            <div class="nav-label">Cours</div>
+
+        <a class="nav-item" href="actualites.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/>
+                    <path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/>
+                </svg>
+            </div>
+            <div class="nav-label">Actualité</div>
         </a>
+
         <a class="nav-item" href="progression.html">
-            <div class="nav-icon">📈</div>
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+            </div>
             <div class="nav-label">Progrès</div>
         </a>
+
+        <a class="nav-item" href="livres.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+                </svg>
+            </div>
+            <div class="nav-label">Livres</div>
+        </a>
+
         <a class="nav-item" href="profil.html">
-            <div class="nav-icon">👤</div>
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </div>
             <div class="nav-label">Profil</div>
         </a>
+
     </div>
 
 </body>
