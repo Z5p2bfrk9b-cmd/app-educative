@@ -49,54 +49,8 @@
             font-weight: 800;
             color: #fff;
         }
-<div class="progress-circle">
-    <svg viewBox="0 0 36 36" width="36" height="36">
-        <circle class="circle-bg" cx="18" cy="18" r="14"></circle>
-        <circle class="circle-fill" cx="18" cy="18" r="14"></circle>
-    </svg>
-    <div class="progress-pct">45%</div>
-</div>
-        
 
-        .progress-circle{
-    width:40px;
-    height:40px;
-    position:relative;
-}
-
-.progress-circle svg{
-    width:40px;
-    height:40px;
-    transform:rotate(-90deg);
-}
-
-.progress-circle circle{
-    fill:none;
-    stroke-width:3;
-}
-
-.circle-bg{
-    stroke:rgba(255,255,255,.25);
-}
-
-.circle-fill{
-    stroke:#fff;
-    stroke-linecap:round;
-    stroke-dasharray:88;
-    stroke-dashoffset:48; /* 45% */
-}
-
-.progress-pct{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    font-size:9px;
-    font-weight:900;
-    color:#fff;
-}
-
-    .last-course{
+          .last-course{
     background:#fff;
     margin:20px 16px;
     padding:18px;
@@ -149,6 +103,46 @@
     font-weight:800;
     cursor:pointer;
 }
+
+        .progress-circle{
+    width:40px;
+    height:40px;
+    position:relative;
+}
+
+.progress-circle svg{
+    width:40px;
+    height:40px;
+    transform:rotate(-90deg);
+}
+
+.progress-circle circle{
+    fill:none;
+    stroke-width:3;
+}
+
+.circle-bg{
+    stroke:rgba(255,255,255,.25);
+}
+
+.circle-fill{
+    stroke:#fff;
+    stroke-linecap:round;
+    stroke-dasharray:88;
+    stroke-dashoffset:48; /* 45% */
+}
+
+.progress-pct{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-size:9px;
+    font-weight:900;
+    color:#fff;
+}
+
+  
 
 
         /* SECTION TITRE */
