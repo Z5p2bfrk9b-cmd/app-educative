@@ -18,7 +18,6 @@
             margin: 0 auto;
         }
 
-        /* HEADER */
         .header {
             background: linear-gradient(160deg, #7b5fff 0%, #2b4eff 100%);
             padding: 50px 20px 24px;
@@ -83,73 +82,61 @@
             color: #fff;
         }
 
-        /* SECTION TITRE */
         .section-title {
             padding: 20px 20px 12px;
             font-size: 16px;
             font-weight: 800;
             color: #333;
         }
-            /* BULLES MATIÈRES */
-.bubbles {
-    padding: 0 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    flex: 1;
-}
 
-.bubble {
-    border-radius: 50px;
-    padding: 14px 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    border: 2px solid transparent;
-    width: 55%;
-    transition: transform 0.15s, box-shadow 0.15s;
-    margin-bottom: 15px;
-}
+        .bubbles {
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            flex: 1;
+        }
 
-.bubble:nth-child(1) { align-self: flex-start; }
-.bubble:nth-child(2) { align-self: center; }
-.bubble:nth-child(3) { align-self: flex-end; }
-.bubble:nth-child(4) { align-self: center; }
-.bubble:nth-child(5) { align-self: flex-start; }
-.bubble:nth-child(6) { align-self: flex-end; }
+        .bubble {
+            border-radius: 50px;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            width: 60%;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
 
-.bubble:active { transform: scale(0.97); }
+        .bubble:nth-child(1) { align-self: flex-start; }
+        .bubble:nth-child(2) { align-self: center; }
+        .bubble:nth-child(3) { align-self: flex-end; }
+        .bubble:nth-child(4) { align-self: flex-start; }
+        .bubble:nth-child(5) { align-self: center; }
+        .bubble:nth-child(6) { align-self: flex-end; }
 
-.bubble:hover {
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    transform: translateY(-2px);
-}
+        .bubble:active { transform: scale(0.97); }
+        .bubble:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
 
-.bubble-maths { background: #eef0ff; border-color: #d0d5ff; }
-.bubble-svt { background: #e8faf2; border-color: #b8f0d8; }
-.bubble-francais { background: #fff0f0; border-color: #ffd0d0; }
-.bubble-physique { background: #f5eeff; border-color: #dcc8ff; }
-.bubble-histoire { background: #fff8e8; border-color: #ffe8a0; }
-.bubble-anglais { background: #e8f4ff; border-color: #b8d8ff; }
+        .bubble-maths { background: #eef0ff; border-color: #d0d5ff; }
+        .bubble-svt { background: #e8faf2; border-color: #b8f0d8; }
+        .bubble-francais { background: #fff0f0; border-color: #ffd0d0; }
+        .bubble-physique { background: #f5eeff; border-color: #dcc8ff; }
+        .bubble-histoire { background: #fff8e8; border-color: #ffe8a0; }
+        .bubble-anglais { background: #e8f4ff; border-color: #b8d8ff; }
 
-.bubble-name {
-    font-size: 13px;
-    font-weight: 800;
-    color: #333;
-    flex: 1;
-}
+        .bubble-emoji { font-size: 20px; flex-shrink: 0; }
 
-.bubble-arrow {
-    font-size: 16px;
-    color: #ccc;
-    font-weight: 700;
-}
+        .bubble-name {
+            font-size: 13px;
+            font-weight: 800;
+            color: #333;
+        }
 
-
-       
-
-        /* BOTTOM NAV */
         .nav {
             position: sticky;
             bottom: 0;
@@ -160,7 +147,7 @@
             padding: 10px 0 16px;
             margin-top: 20px;
         }
-      
+
         .nav-item {
             display: flex;
             flex-direction: column;
@@ -180,7 +167,6 @@
 </head>
 <body>
 
-    <!-- HEADER -->
     <div class="header">
         <div class="header-top">
             <div>
@@ -200,7 +186,6 @@
         </div>
     </div>
 
-    <!-- MATIÈRES -->
     <div class="section-title">Tes matières 📚</div>
 
     <div class="bubbles">
@@ -208,49 +193,35 @@
         <div class="bubble bubble-maths" onclick="window.location.href='cours.html'">
             <div class="bubble-emoji">📐</div>
             <div class="bubble-name">Mathématiques</div>
-            <div class="bubble-chap">3 chapitres</div>
-            <div class="bubble-bar"><div class="bubble-fill fill-maths"></div></div>
         </div>
 
         <div class="bubble bubble-svt" onclick="window.location.href='cours.html'">
             <div class="bubble-emoji">🌿</div>
             <div class="bubble-name">SVT</div>
-            <div class="bubble-bar"><div class="bubble-fill fill-svt"></div></div>
         </div>
 
         <div class="bubble bubble-physique" onclick="window.location.href='cours.html'">
             <div class="bubble-emoji">⚗️</div>
             <div class="bubble-name">Physique-Chimie</div>
-            <div class="bubble-chap">1 chapitre</div>
-            <div class="bubble-bar"><div class="bubble-fill fill-physique"></div></div>
         </div>
 
         <div class="bubble bubble-anglais" onclick="window.location.href='cours.html'">
             <div class="bubble-emoji">🇬🇧</div>
             <div class="bubble-name">Anglais</div>
-            <div class="bubble-chap">2 chapitres</div>
-            <div class="bubble-bar"><div class="bubble-fill fill-anglais"></div></div>
         </div>
 
         <div class="bubble bubble-francais" onclick="window.location.href='cours.html'">
-            <div>
-                <div class="bubble-emoji">📖</div>
-                <div class="bubble-name">Français</div>
-                <div class="bubble-chap">4 chapitres</div>
-            <div class="bubble-bar"><div class="bubble-fill fill-francais"></div> </div>
+            <div class="bubble-emoji">📖</div>
+            <div class="bubble-name">Français</div>
         </div>
 
         <div class="bubble bubble-histoire" onclick="window.location.href='cours.html'">
-            <div>
-                <div class="bubble-emoji">🗺️</div>
-                <div class="bubble-name">Histoire-Géographie</div>
-                <div class="bubble-chap">2 chapitres</div>
-            <div class="bubble-bar"><div class="bubble-fill fill-histoire"></div></div>
+            <div class="bubble-emoji">🗺️</div>
+            <div class="bubble-name">Histoire-Géo</div>
         </div>
 
     </div>
 
-    <!-- NAV -->
     <div class="nav">
         <a class="nav-item active" href="accueil.html">
             <div class="nav-icon">🏠</div>
