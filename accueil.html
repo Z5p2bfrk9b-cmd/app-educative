@@ -220,9 +220,11 @@
         .bubble:active { transform: scale(0.97); }
 
         .bubble-img {
-           width: 100px;
-           height: 160px;
-           overflow: hidden;
+           width: 32px;
+           height: 32px;
+           border-radius: 50%;
+           object-fit: cover;
+           flex-shrink: 0;
        }
 
        .bubble-img img {
