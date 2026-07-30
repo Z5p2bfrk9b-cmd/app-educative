@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPPIA - Choix</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
+
+        body {
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
+
+        /* HEADER */
+        .header {
+            background: #6B9FE4;
+            padding: 16px 14px 20px;
+            border-radius: 0 0 28px 28px;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.25);
+            border: none;
+            border-radius: 12px;
+            padding: 8px 12px;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: 900;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .chapter-title {
+            font-size: 20px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .chapter-sub {
+            font-size: 12px;
+            color: rgba(255,255,255,0.75);
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        /* NIVEAU */
+        .section-title {
+            padding: 24px 16px 12px;
+            font-size: 15px;
+            font-weight: 800;
+            color: #222;
+        }
+
+        .niveau-container {
+            padding: 0 16px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .niveau-btn {
+            flex: 1;
+            padding: 12px 8px;
+            border-radius: 16px;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            background: #fff;
+            transition: all 0.15s;
+        }
+
+        .niveau-btn.selected {
+            border-color: #6B9FE4;
+            background: #eef4ff;
+        }
+
+        .niveau-emoji { font-size: 22px; }
+
+        .niveau-text {
+            font-size: 11px;
+            font-weight: 800;
+            color: #333;
+            text-align: center;
+        }
+
+        /* COQ */
+        .coq-section {
+            padding: 24px 16px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .coq-avatar {
+            font-size: 48px;
+            flex-shrink: 0;
+        }
+
+        .coq-bubble {
+            background: #fff;
+            border-radius: 16px;
+            border: 2px solid #e0e0e0;
+            padding: 14px;
+            flex: 1;
+            position: relative;
+        }
+
+        .coq-bubble::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 16px;
+            border: 6px solid transparent;
+            border-right-color: #e0e0e0;
+        }
+
+        .coq-bubble::after {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 18px;
+            border: 4px solid transparent;
+            border-right-color: #fff;
+        }
+
+        .coq-text {
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* CHOIX MODE */
+        .mode-title {
+            padding: 24px 16px 12px;
+            font-size: 15px;
+            font-weight: 800;
+            color: #222;
+        }
+
+        .modes {
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .mode-card {
+            border-radius: 20px;
+            padding: 20px 18px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.15s, box-shadow 0.15s;
+            text-decoration: none;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .mode-card:active { transform: scale(0.97); }
+
+        .mode-exercice {
+            background: #fff8e8;
+            border: 2px solid #ffe8a0;
+        }
+
+        .mode-chat {
+            background: #eef4ff;
+            border: 2px solid #c8d8ff;
+        }
+
+        .mode-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .mode-exercice .mode-icon { background: #ffe8a0; }
+        .mode-chat .mode-icon { background: #c8d8ff; }
+
+        .mode-info { flex: 1; }
+
+        .mode-name {
+            font-size: 15px;
+            font-weight: 900;
+            color: #222;
+            margin-bottom: 4px;
+        }
+
+        .mode-desc {
+            font-size: 12px;
+            font-weight: 600;
+            color: #888;
+            line-height: 1.4;
+        }
+
+        .mode-arrow {
+            font-size: 20px;
+            color: #ccc;
+            font-weight: 700;
+        }
+
+        /* NAV */
+        .nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 500px;
+            background: #fff;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 16px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 6px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .nav-item.active { background: #f0f0ff; }
+
+        .nav-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: #bbb;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .nav-item.active svg { stroke: #0000cc; }
+        .nav-label { font-size: 9px; font-weight: 700; color: #bbb; }
+        .nav-item.active .nav-label { color: #0000cc; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-top">
+            <a class="back-btn" href="cours.html">←</a>
+            <div>
+                <div class="chapter-title">Les fractions</div>
+                <div class="chapter-sub">Mathématiques · 4ème</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NIVEAU -->
+    <div class="section-title">Comment tu te sens ? 🎯</div>
+
+    <div class="niveau-container">
+        <div class="niveau-btn" onclick="selectionnerNiveau(this)">
+            <div class="niveau-emoji">🟢</div>
+            <div class="niveau-text">Je débute</div>
+        </div>
+        <div class="niveau-btn" onclick="selectionnerNiveau(this)">
+            <div class="niveau-emoji">🟡</div>
+            <div class="niveau-text">J'ai des bases</div>
+        </div>
+        <div class="niveau-btn" onclick="selectionnerNiveau(this)">
+            <div class="niveau-emoji">🔴</div>
+            <div class="niveau-text">Je bloque</div>
+        </div>
+    </div>
+
+    <!-- COQ -->
+    <div class="coq-section">
+        <div class="coq-avatar">🐓</div>
+        <div class="coq-bubble">
+            <div class="coq-text">
+                Pas de panique ! Choisis comment tu veux travailler ce chapitre et on y va ensemble 💪
+            </div>
+        </div>
+    </div>
+
+    <!-- CHOIX MODE -->
+    <div class="mode-title">Que veux-tu faire ? 📚</div>
+
+    <div class="modes">
+
+        <a class="mode-card mode-exercice" href="exercice.html">
+            <div class="mode-icon">📝</div>
+            <div class="mode-info">
+                <div class="mode-name">Exercices progressifs</div>
+                <div class="mode-desc">Des exercices qui s'adaptent à ton niveau — comme Duolingo !</div>
+            </div>
+            <div class="mode-arrow">›</div>
+        </a>
+
+        <a class="mode-card mode-chat" href="chat.html">
+            <div class="mode-icon">💬</div>
+            <div class="mode-info">
+                <div class="mode-name">Explication par l'IA</div>
+                <div class="mode-desc">L'IA t'explique le cours jusqu'à ce que tu comprennes vraiment</div>
+            </div>
+            <div class="mode-arrow">›</div>
+        </a>
+
+    </div>
+
+    <!-- NAV -->
+    <div class="nav">
+        <a class="nav-item active" href="accueil.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            <div class="nav-label">Accueil</div>
+        </a>
+        <a class="nav-item" href="actualites.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/>
+                    <path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/>
+                </svg>
+            </div>
+            <div class="nav-label">Actualité</div>
+        </a>
+        <a class="nav-item" href="progression.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+            </div>
+            <div class="nav-label">Progrès</div>
+        </a>
+        <a class="nav-item" href="communaute.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 010 7.75"/>
+                </svg>
+            </div>
+            <div class="nav-label">Communauté</div>
+        </a>
+        <a class="nav-item" href="profil.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </div>
+            <div class="nav-label">Profil</div>
+        </a>
+    </div>
+
+    <script>
+        function selectionnerNiveau(btn) {
+            document.querySelectorAll('.niveau-btn').forEach(b => b.classList.remove('selected'))
+            btn.classList.add('selected')
+        }
+    </script>
+
+</body>
+</html>
