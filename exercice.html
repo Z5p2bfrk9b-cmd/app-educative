@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPPIA - Exercice</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
+
+        body {
+            background: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* BARRE DU HAUT */
+        .top-bar {
+            padding: 16px 16px 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .close-btn {
+            font-size: 22px;
+            color: #ccc;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 10px;
+            background: #eee;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 30%;
+            background: #6B9FE4;
+            border-radius: 6px;
+            transition: width 0.3s;
+        }
+
+        .lives {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: #fff5e0;
+            border: 2px solid #ffd080;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 800;
+            color: #e8a000;
+        }
+
+        /* LABEL TYPE */
+        .exercice-type {
+            padding: 20px 16px 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .type-icon {
+            width: 28px;
+            height: 28px;
+            background: #eef4ff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .type-label {
+            font-size: 12px;
+            font-weight: 800;
+            color: #6B9FE4;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* COQ + QUESTION */
+        .question-section {
+            padding: 8px 16px 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .coq {
+            font-size: 52px;
+            flex-shrink: 0;
+        }
+
+        .question-bubble {
+            background: #f5f5f5;
+            border-radius: 16px;
+            border: 2px solid #e8e8e8;
+            padding: 14px 16px;
+            flex: 1;
+            position: relative;
+        }
+
+        .question-bubble::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 16px;
+            border: 6px solid transparent;
+            border-right-color: #e8e8e8;
+        }
+
+        .question-bubble::after {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 18px;
+            border: 4px solid transparent;
+            border-right-color: #f5f5f5;
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 800;
+            color: #222;
+            line-height: 1.4;
+        }
+
+        /* RÉPONSES */
+        .reponses {
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .reponse-btn {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 16px;
+            border: 2px solid #e0e0e0;
+            background: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.15s;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .reponse-btn:hover {
+            border-color: #6B9FE4;
+            background: #eef4ff;
+        }
+
+        .reponse-btn.correct {
+            border-color: #00c97a;
+            background: #e8faf2;
+            color: #00a060;
+        }
+
+        .reponse-btn.incorrect {
+            border-color: #ff4757;
+            background: #fff0f0;
+            color: #cc0000;
+        }
+
+        /* FEEDBACK */
+        .feedback {
+            display: none;
+            padding: 16px;
+            margin: 16px 16px 0;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .feedback.correct {
+            display: block;
+            background: #e8faf2;
+            color: #00a060;
+            border: 2px solid #00c97a;
+        }
+
+        .feedback.incorrect {
+            display: block;
+            background: #fff0f0;
+            color: #cc0000;
+            border: 2px solid #ff4757;
+        }
+
+        /* BOUTON CONTINUER */
+        .bottom-bar {
+            padding: 16px;
+            margin-top: auto;
+        }
+
+        .continuer-btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            border: none;
+            background: #e0e0e0;
+            color: #aaa;
+            font-size: 15px;
+            font-weight: 900;
+            cursor: not-allowed;
+            font-family: 'Nunito', sans-serif;
+            transition: all 0.15s;
+        }
+
+        .continuer-btn.active {
+            background: #6B9FE4;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .continuer-btn.correct {
+            background: #00c97a;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .continuer-btn.incorrect {
+            background: #ff4757;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BARRE DU HAUT -->
+    <div class="top-bar">
+        <a class="close-btn" href="ia.html">✕</a>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+        <div class="lives">⚡ 25</div>
+    </div>
+
+    <!-- TYPE D'EXERCICE -->
+    <div class="exercice-type">
+        <div class="type-icon">📝</div>
+        <div class="type-label">Choix multiple</div>
+    </div>
+
+    <!-- COQ + QUESTION -->
+    <div class="question-section">
+        <div class="coq">🐓</div>
+        <div class="question-bubble">
+            <div class="question-text" id="question">
+                Combien fait ¾ + ¼ ?
+            </div>
+        </div>
+    </div>
+
+    <!-- RÉPONSES -->
+    <div class="reponses">
+        <button class="reponse-btn" onclick="choisir(this, false)">½</button>
+        <button class="reponse-btn" onclick="choisir(this, true)">1</button>
+        <button class="reponse-btn" onclick="choisir(this, false)">2</button>
+        <button class="reponse-btn" onclick="choisir(this, false)">¼</button>
+    </div>
+
+    <!-- FEEDBACK -->
+    <div class="feedback" id="feedback"></div>
+
+    <!-- BOUTON CONTINUER -->
+    <div class="bottom-bar">
+        <button class="continuer-btn" id="continuer" onclick="continuer()">
+            CONTINUER
+        </button>
+    </div>
+
+    <script>
+        let repondu = false
+
+        function choisir(btn, estCorrecte) {
+            if (repondu) return
+            repondu = true
+
+            let continuerBtn = document.getElementById('continuer')
+            let feedback = document.getElementById('feedback')
+
+            document.querySelectorAll('.reponse-btn').forEach(b => b.style.pointerEvents = 'none')
+
+            if (estCorrecte) {
+                btn.classList.add('correct')
+                feedback.textContent = '✅ Bravo ! C\'est la bonne réponse !'
+                feedback.className = 'feedback correct'
+                continuerBtn.className = 'continuer-btn correct'
+            } else {
+                btn.classList.add('incorrect')
+                feedback.textContent = '❌ Pas tout à fait... La bonne réponse était 1'
+                feedback.className = 'feedback incorrect'
+                continuerBtn.className = 'continuer-btn incorrect'
+            }
+
+            continuerBtn.textContent = 'CONTINUER'
+        }
+
+        function continuer() {
+            if (!repondu) return
+            window.location.href = 'exercice.html'
+        }
+    </script>
+
+</body>
+</html>
