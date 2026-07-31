@@ -1,1 +1,475 @@
 <!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPPIA - Profil</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
+
+        body {
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(160deg, #1a1aff 0%, #0000cc 100%);
+            padding: 44px 16px 30px;
+            border-radius: 0 0 28px 28px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            border: 3px solid #fff;
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+
+        .profil-name {
+            font-size: 22px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .profil-class {
+            font-size: 13px;
+            color: rgba(255,255,255,0.75);
+            font-weight: 700;
+        }
+
+        /* STATS */
+        .stats-grid {
+            padding: 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .stat-emoji { font-size: 22px; margin-bottom: 4px; }
+        .stat-value { font-size: 20px; font-weight: 900; color: #222; }
+        .stat-label { font-size: 10px; font-weight: 700; color: #888; margin-top: 2px; }
+
+        /* BADGES */
+        .section-title {
+            padding: 8px 16px 10px;
+            font-size: 15px;
+            font-weight: 800;
+            color: #222;
+        }
+
+        .badges {
+            padding: 0 16px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .badge {
+            flex-shrink: 0;
+            background: #fff;
+            border-radius: 16px;
+            padding: 12px;
+            text-align: center;
+            width: 80px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .badge-icon { font-size: 28px; margin-bottom: 4px; }
+        .badge-name { font-size: 10px; font-weight: 700; color: #333; }
+
+        .badge.locked {
+            opacity: 0.4;
+            filter: grayscale(1);
+        }
+
+        /* CLASSEMENT */
+        .classement-card {
+            background: #fff;
+            border-radius: 20px;
+            margin: 0 16px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .classement-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: #222;
+            margin-bottom: 12px;
+        }
+
+        .classement-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .classement-row:last-child { border-bottom: none; }
+
+        .classement-row.moi { background: #eef4ff; border-radius: 10px; padding: 8px 10px; }
+
+        .rank {
+            font-size: 14px;
+            font-weight: 900;
+            color: #888;
+            width: 20px;
+            text-align: center;
+        }
+
+        .rank.gold { color: #f39c12; }
+        .rank.silver { color: #95a5a6; }
+        .rank.bronze { color: #e67e22; }
+
+        .classement-name {
+            flex: 1;
+            font-size: 13px;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .classement-pts {
+            font-size: 12px;
+            font-weight: 800;
+            color: #6B9FE4;
+        }
+
+        /* MENU */
+        .menu {
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu-item {
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .menu-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #eef4ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .menu-text {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .menu-arrow {
+            font-size: 18px;
+            color: #ccc;
+        }
+
+        .menu-item.danger .menu-text { color: #ff4757; }
+        .menu-item.danger .menu-icon { background: #fff0f0; }
+
+        /* ABONNEMENT */
+        .abonnement-card {
+            background: linear-gradient(135deg, #6B9FE4, #0000cc);
+            border-radius: 20px;
+            margin: 0 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+        }
+
+        .abonnement-icon { font-size: 32px; }
+
+        .abonnement-info { flex: 1; }
+
+        .abonnement-title {
+            font-size: 15px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .abonnement-desc {
+            font-size: 12px;
+            color: rgba(255,255,255,0.75);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .abonnement-btn {
+            background: #fff;
+            color: #0000cc;
+            border: none;
+            border-radius: 12px;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 900;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        /* NAV */
+        .nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 500px;
+            background: #fff;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 16px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 6px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .nav-item.active { background: #f0f0ff; }
+
+        .nav-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: #bbb;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .nav-item.active svg { stroke: #0000cc; }
+        .nav-label { font-size: 9px; font-weight: 700; color: #bbb; }
+        .nav-item.active .nav-label { color: #0000cc; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="avatar">👤</div>
+        <div class="profil-name">Maya</div>
+        <div class="profil-class">4ème · Collège Victor Hugo</div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-emoji">🔥</div>
+            <div class="stat-value">7</div>
+            <div class="stat-label">Streak</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-emoji">⭐</div>
+            <div class="stat-value">300</div>
+            <div class="stat-label">Points</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-emoji">🏆</div>
+            <div class="stat-value">45e</div>
+            <div class="stat-label">Classement</div>
+        </div>
+    </div>
+
+    <!-- BADGES -->
+    <div class="section-title">Mes badges 🏅</div>
+
+    <div class="badges">
+        <div class="badge">
+            <div class="badge-icon">🔥</div>
+            <div class="badge-name">7 jours</div>
+        </div>
+        <div class="badge">
+            <div class="badge-icon">⭐</div>
+            <div class="badge-name">100 pts</div>
+        </div>
+        <div class="badge">
+            <div class="badge-icon">📚</div>
+            <div class="badge-name">10 exos</div>
+        </div>
+        <div class="badge locked">
+            <div class="badge-icon">🏆</div>
+            <div class="badge-name">Top 10</div>
+        </div>
+        <div class="badge locked">
+            <div class="badge-icon">💎</div>
+            <div class="badge-name">30 jours</div>
+        </div>
+        <div class="badge locked">
+            <div class="badge-icon">🚀</div>
+            <div class="badge-name">Expert</div>
+        </div>
+    </div>
+
+    <!-- CLASSEMENT -->
+    <div class="section-title">Classement école 🏫</div>
+
+    <div class="classement-card">
+        <div class="classement-title">Collège Victor Hugo · Cette semaine</div>
+        <div class="classement-row">
+            <div class="rank gold">1</div>
+            <div class="classement-name">Lucas</div>
+            <div class="classement-pts">520 pts</div>
+        </div>
+        <div class="classement-row">
+            <div class="rank silver">2</div>
+            <div class="classement-name">Emma</div>
+            <div class="classement-pts">480 pts</div>
+        </div>
+        <div class="classement-row">
+            <div class="rank bronze">3</div>
+            <div class="classement-name">Théo</div>
+            <div class="classement-pts">420 pts</div>
+        </div>
+        <div class="classement-row moi">
+            <div class="rank">45</div>
+            <div class="classement-name">Maya (moi) 👈</div>
+            <div class="classement-pts">300 pts</div>
+        </div>
+    </div>
+
+    <!-- ABONNEMENT -->
+    <div class="section-title">Mon abonnement</div>
+
+    <div class="abonnement-card">
+        <div class="abonnement-icon">⚡</div>
+        <div class="abonnement-info">
+            <div class="abonnement-title">Passe à Premium</div>
+            <div class="abonnement-desc">Exercices illimités · Sans pub · 5,99€/mois</div>
+        </div>
+        <button class="abonnement-btn">Essayer</button>
+    </div>
+
+    <!-- MENU -->
+    <div class="section-title">Paramètres</div>
+
+    <div class="menu">
+        <a class="menu-item" href="#">
+            <div class="menu-icon">✏️</div>
+            <div class="menu-text">Modifier mon profil</div>
+            <div class="menu-arrow">›</div>
+        </a>
+        <a class="menu-item" href="#">
+            <div class="menu-icon">📚</div>
+            <div class="menu-text">Mes matières</div>
+            <div class="menu-arrow">›</div>
+        </a>
+        <a class="menu-item" href="#">
+            <div class="menu-icon">🔔</div>
+            <div class="menu-text">Notifications</div>
+            <div class="menu-arrow">›</div>
+        </a>
+        <a class="menu-item" href="#">
+            <div class="menu-icon">♿</div>
+            <div class="menu-text">Accessibilité</div>
+            <div class="menu-arrow">›</div>
+        </a>
+        <a class="menu-item danger" href="#">
+            <div class="menu-icon">🚪</div>
+            <div class="menu-text">Se déconnecter</div>
+            <div class="menu-arrow">›</div>
+        </a>
+    </div>
+
+    <!-- NAV -->
+    <div class="nav">
+        <a class="nav-item" href="accueil.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            <div class="nav-label">Accueil</div>
+        </a>
+        <a class="nav-item" href="actualites.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/>
+                    <path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/>
+                </svg>
+            </div>
+            <div class="nav-label">Actualité</div>
+        </a>
+        <a class="nav-item" href="progression.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+            </div>
+            <div class="nav-label">Progrès</div>
+        </a>
+        <a class="nav-item" href="communaute.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 010 7.75"/>
+                </svg>
+            </div>
+            <div class="nav-label">Communauté</div>
+        </a>
+        <a class="nav-item active" href="profil.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </div>
+            <div class="nav-label">Profil</div>
+        </a>
+    </div>
+
+</body>
+</html>
+
