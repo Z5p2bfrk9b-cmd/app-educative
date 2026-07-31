@@ -1,1 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPPIA - Communauté</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
+
+        body {
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
+
+        .header {
+            background: linear-gradient(160deg, #1a1aff 0%, #0000cc 100%);
+            padding: 44px 16px 20px;
+            border-radius: 0 0 24px 24px;
+        }
+
+        .header-title {
+            font-size: 22px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .header-sub {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+            font-weight: 700;
+        }
+
+        /* TABS */
+        .tabs {
+            padding: 16px 16px 0;
+            display: flex;
+            gap: 8px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+            background: #fff;
+            font-size: 12px;
+            font-weight: 800;
+            color: #888;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.15s;
+        }
+
+        .tab.active {
+            background: #eef4ff;
+            border-color: #6B9FE4;
+            color: #6B9FE4;
+        }
+
+        /* QUESTION CARD */
+        .section-title {
+            padding: 16px 16px 10px;
+            font-size: 15px;
+            font-weight: 800;
+            color: #222;
+        }
+
+        .question-card {
+            background: #fff;
+            border-radius: 20px;
+            margin: 0 16px 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #eef4ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .user-info { flex: 1; }
+
+        .user-name {
+            font-size: 13px;
+            font-weight: 800;
+            color: #222;
+        }
+
+        .question-meta {
+            font-size: 11px;
+            color: #888;
+            font-weight: 600;
+        }
+
+        .question-tag {
+            background: #eef4ff;
+            color: #6B9FE4;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 20px;
+        }
+
+        .question-text {
+            font-size: 14px;
+            font-weight: 700;
+            color: #222;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .question-footer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #888;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .footer-btn:hover { color: #6B9FE4; }
+
+        .ia-badge {
+            margin-left: auto;
+            background: #e8faf2;
+            color: #00a060;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 20px;
+        }
+
+        /* NOUVEAU POST */
+        .new-post {
+            position: fixed;
+            bottom: 80px;
+            right: 16px;
+            width: 52px;
+            height: 52px;
+            background: #6B9FE4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(107,159,228,0.4);
+            z-index: 50;
+            border: none;
+            color: #fff;
+        }
+
+        /* NAV */
+        .nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 500px;
+            background: #fff;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 16px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 6px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .nav-item.active { background: #f0f0ff; }
+
+        .nav-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: #bbb;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .nav-item.active svg { stroke: #0000cc; }
+        .nav-label { font-size: 9px; font-weight: 700; color: #bbb; }
+        .nav-item.active .nav-label { color: #0000cc; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-title">Communauté 💬</div>
+        <div class="header-sub">Pose tes questions · Aide les autres</div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <div class="tab active">Questions</div>
+        <div class="tab">Classement</div>
+        <div class="tab">Ma classe</div>
+    </div>
+
+    <div class="section-title">Questions récentes 🔥</div>
+
+    <!-- QUESTION 1 -->
+    <div class="question-card">
+        <div class="question-header">
+            <div class="user-avatar">👦</div>
+            <div class="user-info">
+                <div class="user-name">Lucas · 4ème</div>
+                <div class="question-meta">Il y a 5 min</div>
+            </div>
+            <div class="question-tag">Maths</div>
+        </div>
+        <div class="question-text">
+            Je comprends pas comment simplifier les fractions. Genre 6/8 ça donne quoi ?
+        </div>
+        <div class="question-footer">
+            <button class="footer-btn">👍 12</button>
+            <button class="footer-btn">💬 3 réponses</button>
+            <div class="ia-badge">✅ Répondu par l'IA</div>
+        </div>
+    </div>
+
+    <!-- QUESTION 2 -->
+    <div class="question-card">
+        <div class="question-header">
+            <div class="user-avatar">👧</div>
+            <div class="user-info">
+                <div class="user-name">Emma · 3ème</div>
+                <div class="question-meta">Il y a 20 min</div>
+            </div>
+            <div class="question-tag">SVT</div>
+        </div>
+        <div class="question-text">
+            C'est quoi la différence entre la photosynthèse et la respiration cellulaire ? J'arrive pas à retenir
+        </div>
+        <div class="question-footer">
+            <button class="footer-btn">👍 8</button>
+            <button class="footer-btn">💬 5 réponses</button>
+            <div class="ia-badge">✅ Répondu par l'IA</div>
+        </div>
+    </div>
+
+    <!-- QUESTION 3 -->
+    <div class="question-card">
+        <div class="question-header">
+            <div class="user-avatar">👦</div>
+            <div class="user-info">
+                <div class="user-name">Théo · 5ème</div>
+                <div class="question-meta">Il y a 1h</div>
+            </div>
+            <div class="question-tag">Français</div>
+        </div>
+        <div class="question-text">
+            Comment on conjugue "être" au subjonctif présent ? Mon prof explique pas bien
+        </div>
+        <div class="question-footer">
+            <button class="footer-btn">👍 15</button>
+            <button class="footer-btn">💬 7 réponses</button>
+            <div class="ia-badge">✅ Répondu par l'IA</div>
+        </div>
+    </div>
+
+    <!-- BOUTON NOUVEAU POST -->
+    <button class="new-post">+</button>
+
+    <!-- NAV -->
+    <div class="nav">
+        <a class="nav-item" href="accueil.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            <div class="nav-label">Accueil</div>
+        </a>
+        <a class="nav-item" href="actualites.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/>
+                    <path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/>
+                </svg>
+            </div>
+            <div class="nav-label">Actualité</div>
+        </a>
+        <a class="nav-item" href="progression.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+            </div>
+            <div class="nav-label">Progrès</div>
+        </a>
+        <a class="nav-item active" href="communaute.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 010 7.75"/>
+                </svg>
+            </div>
+            <div class="nav-label">Communauté</div>
+        </a>
+        <a class="nav-item" href="profil.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </div>
+            <div class="nav-label">Profil</div>
+        </a>
+    </div>
+
+</body>
+</html>
 
