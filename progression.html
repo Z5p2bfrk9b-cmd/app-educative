@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPPIA - Progression</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
+
+        body {
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(160deg, #1a1aff 0%, #0000cc 100%);
+            padding: 44px 16px 20px;
+            border-radius: 0 0 24px 24px;
+        }
+
+        .header-title {
+            font-size: 22px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .header-sub {
+            font-size: 12px;
+            color: rgba(255,255,255,0.7);
+            font-weight: 700;
+        }
+
+        /* STATS RAPIDES */
+        .stats-grid {
+            padding: 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .stat-emoji { font-size: 22px; margin-bottom: 4px; }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 900;
+            color: #222;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        /* SECTION */
+        .section-title {
+            padding: 16px 16px 10px;
+            font-size: 15px;
+            font-weight: 800;
+            color: #222;
+        }
+
+        /* PLANNING */
+        .planning {
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .planning-day {
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .planning-day.today {
+            border: 2px solid #6B9FE4;
+            background: #eef4ff;
+        }
+
+        .planning-day.done {
+            opacity: 0.6;
+        }
+
+        .day-label {
+            width: 36px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .day-name {
+            font-size: 11px;
+            font-weight: 800;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        .day-num {
+            font-size: 18px;
+            font-weight: 900;
+            color: #222;
+        }
+
+        .planning-day.today .day-num { color: #6B9FE4; }
+
+        .day-content { flex: 1; }
+
+        .day-matiere {
+            font-size: 13px;
+            font-weight: 800;
+            color: #222;
+        }
+
+        .day-chapitre {
+            font-size: 11px;
+            font-weight: 600;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .day-duree {
+            font-size: 11px;
+            font-weight: 700;
+            color: #6B9FE4;
+            background: #eef4ff;
+            padding: 3px 8px;
+            border-radius: 20px;
+        }
+
+        .day-check {
+            font-size: 20px;
+        }
+
+        /* PROGRESSION PAR MATIÈRE */
+        .matieres-progress {
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .matiere-row {
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .matiere-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .matiere-name {
+            font-size: 13px;
+            font-weight: 800;
+            color: #222;
+        }
+
+        .matiere-pct {
+            font-size: 13px;
+            font-weight: 900;
+            color: #6B9FE4;
+        }
+
+        .matiere-bar {
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .matiere-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: #6B9FE4;
+        }
+
+        /* NAV */
+        .nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 500px;
+            background: #fff;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 16px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 6px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .nav-item.active { background: #f0f0ff; }
+
+        .nav-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: #bbb;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .nav-item.active svg { stroke: #0000cc; }
+        .nav-label { font-size: 9px; font-weight: 700; color: #bbb; }
+        .nav-item.active .nav-label { color: #0000cc; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-title">Progression 📈</div>
+        <div class="header-sub">Semaine du 28 juillet 2026</div>
+    </div>
+
+    <!-- STATS RAPIDES -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-emoji">🔥</div>
+            <div class="stat-value">7</div>
+            <div class="stat-label">Jours streak</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-emoji">⭐</div>
+            <div class="stat-value">300</div>
+            <div class="stat-label">Points</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-emoji">📚</div>
+            <div class="stat-value">12</div>
+            <div class="stat-label">Exercices</div>
+        </div>
+    </div>
+
+    <!-- PLANNING -->
+    <div class="section-title">Planning cette semaine 🗓</div>
+
+    <div class="planning">
+
+        <div class="planning-day done">
+            <div class="day-label">
+                <div class="day-name">Lun</div>
+                <div class="day-num">28</div>
+            </div>
+            <div class="day-content">
+                <div class="day-matiere">Mathématiques</div>
+                <div class="day-chapitre">Les fractions</div>
+            </div>
+            <div class="day-duree">20 min</div>
+            <div class="day-check">✅</div>
+        </div>
+
+        <div class="planning-day done">
+            <div class="day-label">
+                <div class="day-name">Mar</div>
+                <div class="day-num">29</div>
+            </div>
+            <div class="day-content">
+                <div class="day-matiere">SVT</div>
+                <div class="day-chapitre">La photosynthèse</div>
+            </div>
+            <div class="day-duree">15 min</div>
+            <div class="day-check">✅</div>
+        </div>
+
+        <div class="planning-day today">
+            <div class="day-label">
+                <div class="day-name">Mer</div>
+                <div class="day-num">30</div>
+            </div>
+            <div class="day-content">
+                <div class="day-matiere">Français</div>
+                <div class="day-chapitre">La conjugaison</div>
+            </div>
+            <div class="day-duree">20 min</div>
+            <div class="day-check">📍</div>
+        </div>
+
+        <div class="planning-day">
+            <div class="day-label">
+                <div class="day-name">Jeu</div>
+                <div class="day-num">31</div>
+            </div>
+            <div class="day-content">
+                <div class="day-matiere">Physique-Chimie</div>
+                <div class="day-chapitre">Les forces</div>
+            </div>
+            <div class="day-duree">15 min</div>
+            <div class="day-check">⬜</div>
+        </div>
+
+        <div class="planning-day">
+            <div class="day-label">
+                <div class="day-name">Ven</div>
+                <div class="day-num">1</div>
+            </div>
+            <div class="day-content">
+                <div class="day-matiere">Anglais</div>
+                <div class="day-chapitre">Past simple</div>
+            </div>
+            <div class="day-duree">20 min</div>
+            <div class="day-check">⬜</div>
+        </div>
+
+    </div>
+
+    <!-- PROGRESSION PAR MATIÈRE -->
+    <div class="section-title">Par matière 📊</div>
+
+    <div class="matieres-progress">
+
+        <div class="matiere-row">
+            <div class="matiere-header">
+                <div class="matiere-name">Mathématiques</div>
+                <div class="matiere-pct">45%</div>
+            </div>
+            <div class="matiere-bar">
+                <div class="matiere-fill" style="width:45%"></div>
+            </div>
+        </div>
+
+        <div class="matiere-row">
+            <div class="matiere-header">
+                <div class="matiere-name">SVT</div>
+                <div class="matiere-pct">70%</div>
+            </div>
+            <div class="matiere-bar">
+                <div class="matiere-fill" style="width:70%; background:#00c97a"></div>
+            </div>
+        </div>
+
+        <div class="matiere-row">
+            <div class="matiere-header">
+                <div class="matiere-name">Français</div>
+                <div class="matiere-pct">30%</div>
+            </div>
+            <div class="matiere-bar">
+                <div class="matiere-fill" style="width:30%; background:#ff4757"></div>
+            </div>
+        </div>
+
+        <div class="matiere-row">
+            <div class="matiere-header">
+                <div class="matiere-name">Physique-Chimie</div>
+                <div class="matiere-pct">20%</div>
+            </div>
+            <div class="matiere-bar">
+                <div class="matiere-fill" style="width:20%; background:#9b59b6"></div>
+            </div>
+        </div>
+
+        <div class="matiere-row">
+            <div class="matiere-header">
+                <div class="matiere-name">Anglais</div>
+                <div class="matiere-pct">50%</div>
+            </div>
+            <div class="matiere-bar">
+                <div class="matiere-fill" style="width:50%; background:#e67e22"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- NAV -->
+    <div class="nav">
+        <a class="nav-item" href="accueil.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            <div class="nav-label">Accueil</div>
+        </a>
+        <a class="nav-item" href="actualites.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/>
+                    <path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/>
+                </svg>
+            </div>
+            <div class="nav-label">Actualité</div>
+        </a>
+        <a class="nav-item active" href="progression.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+            </div>
+            <div class="nav-label">Progrès</div>
+        </a>
+        <a class="nav-item" href="communaute.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 010 7.75"/>
+                </svg>
+            </div>
+            <div class="nav-label">Communauté</div>
+        </a>
+        <a class="nav-item" href="profil.html">
+            <div class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </div>
+            <div class="nav-label">Profil</div>
+        </a>
+    </div>
+
+</body>
+</html>
+
