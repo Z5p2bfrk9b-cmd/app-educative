@@ -43,13 +43,13 @@
 
         .progress-fill {
             height: 100%;
-            width: 30%;
+            width: 0%;
             background: #6B9FE4;
             border-radius: 6px;
-            transition: width 0.3s;
+            transition: width 0.4s;
         }
 
-        .lives {
+        .credits {
             display: flex;
             align-items: center;
             gap: 4px;
@@ -62,9 +62,23 @@
             color: #e8a000;
         }
 
-        /* LABEL TYPE */
+        /* NIVEAU */
+        .niveau-badge {
+            margin: 8px 16px 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eef4ff;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: 800;
+            color: #6B9FE4;
+        }
+
+        /* TYPE */
         .exercice-type {
-            padding: 20px 16px 8px;
+            padding: 12px 16px 8px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -160,45 +174,90 @@
             font-family: 'Nunito', sans-serif;
         }
 
-        .reponse-btn:hover {
-            border-color: #6B9FE4;
-            background: #eef4ff;
-        }
-
-        .reponse-btn.correct {
-            border-color: #00c97a;
-            background: #e8faf2;
-            color: #00a060;
-        }
-
-        .reponse-btn.incorrect {
-            border-color: #ff4757;
-            background: #fff0f0;
-            color: #cc0000;
-        }
+        .reponse-btn:hover { border-color: #6B9FE4; background: #eef4ff; }
+        .reponse-btn.correct { border-color: #00c97a; background: #e8faf2; color: #00a060; }
+        .reponse-btn.incorrect { border-color: #ff4757; background: #fff0f0; color: #cc0000; }
+        .reponse-btn:disabled { cursor: not-allowed; }
 
         /* FEEDBACK */
         .feedback {
             display: none;
-            padding: 16px;
-            margin: 16px 16px 0;
+            padding: 14px 16px;
+            margin: 12px 16px 0;
             border-radius: 16px;
             font-size: 14px;
             font-weight: 800;
+            line-height: 1.4;
         }
 
-        .feedback.correct {
-            display: block;
-            background: #e8faf2;
-            color: #00a060;
-            border: 2px solid #00c97a;
+        .feedback.correct { display: block; background: #e8faf2; color: #00a060; border: 2px solid #00c97a; }
+        .feedback.incorrect { display: block; background: #fff0f0; color: #cc0000; border: 2px solid #ff4757; }
+
+        /* RÉSULTAT FINAL */
+        .resultat {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 16px;
+            text-align: center;
         }
 
-        .feedback.incorrect {
+        .resultat.show { display: flex; }
+
+        .resultat-coq { font-size: 80px; margin-bottom: 16px; }
+
+        .resultat-titre {
+            font-size: 24px;
+            font-weight: 900;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .resultat-score {
+            font-size: 16px;
+            font-weight: 700;
+            color: #888;
+            margin-bottom: 24px;
+        }
+
+        .resultat-niveau {
+            background: #eef4ff;
+            border-radius: 16px;
+            padding: 14px 20px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #6B9FE4;
+        }
+
+        .btn-recommencer {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            border: none;
+            background: #6B9FE4;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 900;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            margin-bottom: 12px;
+        }
+
+        .btn-retour {
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            border: 2px solid #e0e0e0;
+            background: #fff;
+            color: #888;
+            font-size: 15px;
+            font-weight: 900;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            text-decoration: none;
             display: block;
-            background: #fff0f0;
-            color: #cc0000;
-            border: 2px solid #ff4757;
+            text-align: center;
         }
 
         /* BOUTON CONTINUER */
@@ -221,101 +280,313 @@
             transition: all 0.15s;
         }
 
-        .continuer-btn.active {
-            background: #6B9FE4;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .continuer-btn.correct {
-            background: #00c97a;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .continuer-btn.incorrect {
-            background: #ff4757;
-            color: #fff;
-            cursor: pointer;
-        }
+        .continuer-btn.active { background: #6B9FE4; color: #fff; cursor: pointer; }
+        .continuer-btn.correct { background: #00c97a; color: #fff; cursor: pointer; }
+        .continuer-btn.incorrect { background: #ff4757; color: #fff; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <!-- BARRE DU HAUT -->
-    <div class="top-bar">
+    <div class="top-bar" id="topBar">
         <a class="close-btn" href="ia.html">✕</a>
         <div class="progress-bar">
             <div class="progress-fill" id="progress"></div>
         </div>
-        <div class="lives">⚡ 25</div>
+        <div class="credits" id="credits">⚡ 100%</div>
     </div>
 
-    <!-- TYPE D'EXERCICE -->
-    <div class="exercice-type">
+    <!-- NIVEAU -->
+    <div class="niveau-badge" id="niveauBadge">⭐ Niveau 1</div>
+
+    <!-- TYPE -->
+    <div class="exercice-type" id="exerciceType">
         <div class="type-icon">📝</div>
         <div class="type-label">Choix multiple</div>
     </div>
 
     <!-- COQ + QUESTION -->
-    <div class="question-section">
+    <div class="question-section" id="questionSection">
         <div class="coq">🐓</div>
         <div class="question-bubble">
-            <div class="question-text" id="question">
-                Combien fait ¾ + ¼ ?
-            </div>
+            <div class="question-text" id="questionText"></div>
         </div>
     </div>
 
     <!-- RÉPONSES -->
-    <div class="reponses">
-        <button class="reponse-btn" onclick="choisir(this, false)">½</button>
-        <button class="reponse-btn" onclick="choisir(this, true)">1</button>
-        <button class="reponse-btn" onclick="choisir(this, false)">2</button>
-        <button class="reponse-btn" onclick="choisir(this, false)">¼</button>
-    </div>
+    <div class="reponses" id="reponses"></div>
 
     <!-- FEEDBACK -->
     <div class="feedback" id="feedback"></div>
 
+    <!-- RÉSULTAT FINAL -->
+    <div class="resultat" id="resultat">
+        <div class="resultat-coq" id="resultatCoq">🎉</div>
+        <div class="resultat-titre" id="resultatTitre">Session terminée !</div>
+        <div class="resultat-score" id="resultatScore"></div>
+        <div class="resultat-niveau" id="resultatNiveau"></div>
+        <button class="btn-recommencer" onclick="recommencer()">🔄 Recommencer</button>
+        <a class="btn-retour" href="ia.html">← Retour au chapitre</a>
+    </div>
+
     <!-- BOUTON CONTINUER -->
-    <div class="bottom-bar">
-        <button class="continuer-btn" id="continuer" onclick="continuer()">
-            CONTINUER
-        </button>
+    <div class="bottom-bar" id="bottomBar">
+        <button class="continuer-btn" id="continuer" onclick="continuer()">CONTINUER</button>
     </div>
 
     <script>
+        // ── DONNÉES ──────────────────────────────────────────
+
+        const questionsParNiveau = {
+            1: [
+                {
+                    question: "Combien fait ¼ + ¼ ?",
+                    reponses: ["¼", "½", "1", "2"],
+                    bonne: 1
+                },
+                {
+                    question: "Quelle fraction est la plus grande : ½ ou ¼ ?",
+                    reponses: ["¼", "½", "Elles sont égales", "Je sais pas"],
+                    bonne: 1
+                },
+                {
+                    question: "Combien font 2/4 simplifiés ?",
+                    reponses: ["1/4", "1/2", "2/2", "3/4"],
+                    bonne: 1
+                }
+            ],
+            2: [
+                {
+                    question: "Combien fait ¾ + ¼ ?",
+                    reponses: ["½", "1", "2", "¼"],
+                    bonne: 1
+                },
+                {
+                    question: "Combien fait ⅔ + ⅓ ?",
+                    reponses: ["⅓", "⅔", "1", "2/6"],
+                    bonne: 2
+                },
+                {
+                    question: "Simplifie 6/8",
+                    reponses: ["2/4", "3/4", "1/2", "4/6"],
+                    bonne: 1
+                }
+            ],
+            3: [
+                {
+                    question: "Combien fait ½ + ⅓ ?",
+                    reponses: ["2/5", "5/6", "⅔", "1"],
+                    bonne: 1
+                },
+                {
+                    question: "Combien fait ¾ - ¼ ?",
+                    reponses: ["¼", "½", "⅔", "1"],
+                    bonne: 1
+                },
+                {
+                    question: "Quelle est la forme simplifiée de 9/12 ?",
+                    reponses: ["2/3", "3/4", "4/6", "1/2"],
+                    bonne: 1
+                }
+            ]
+        }
+
+        // ── ÉTAT ─────────────────────────────────────────────
+
+        let niveau = 1
+        let questionIndex = 0
+        let bonnesReponses = 0
+        let totalQuestions = 0
+        let bonnesConsecutives = 0
         let repondu = false
+        let credits = parseInt(localStorage.getItem('credits') || '100')
+        const estPremium = false // à changer quand Supabase sera connecté
+        const QUESTIONS_PAR_SESSION = 5
+
+        // ── INITIALISATION ────────────────────────────────────
+
+        function init() {
+            afficherCredits()
+            afficherQuestion()
+        }
+
+        // ── CRÉDITS ───────────────────────────────────────────
+
+        function afficherCredits() {
+            if (estPremium) {
+                document.getElementById('credits').innerHTML = '⚡ ∞'
+                document.getElementById('credits').style.background = '#e8faf2'
+                document.getElementById('credits').style.borderColor = '#00c97a'
+                document.getElementById('credits').style.color = '#00a060'
+            } else {
+                document.getElementById('credits').innerHTML = `⚡ ${credits}%`
+            }
+        }
+
+        function diminuerCredits() {
+            if (estPremium) return
+            credits = Math.max(0, credits - 10)
+            localStorage.setItem('credits', credits)
+            afficherCredits()
+        }
+
+        // ── QUESTIONS ─────────────────────────────────────────
+
+        function getQuestion() {
+            let pool = questionsParNiveau[niveau] || questionsParNiveau[3]
+            return pool[questionIndex % pool.length]
+        }
+
+        function afficherQuestion() {
+            if (totalQuestions >= QUESTIONS_PAR_SESSION) {
+                afficherResultat()
+                return
+            }
+
+            repondu = false
+            let q = getQuestion()
+
+            // Progression
+            let pct = (totalQuestions / QUESTIONS_PAR_SESSION) * 100
+            document.getElementById('progress').style.width = pct + '%'
+
+            // Niveau
+            document.getElementById('niveauBadge').innerHTML = `${'⭐'.repeat(niveau)} Niveau ${niveau}`
+
+            // Question
+            document.getElementById('questionText').textContent = q.question
+
+            // Réponses
+            let reponsesDiv = document.getElementById('reponses')
+            reponsesDiv.innerHTML = ''
+            q.reponses.forEach((rep, i) => {
+                let btn = document.createElement('button')
+                btn.className = 'reponse-btn'
+                btn.textContent = rep
+                btn.onclick = () => choisir(btn, i === q.bonne)
+                reponsesDiv.appendChild(btn)
+            })
+
+            // Reset
+            document.getElementById('feedback').className = 'feedback'
+            document.getElementById('feedback').textContent = ''
+            let continuer = document.getElementById('continuer')
+            continuer.className = 'continuer-btn'
+            continuer.textContent = 'CONTINUER'
+        }
+
+        // ── RÉPONSE ───────────────────────────────────────────
 
         function choisir(btn, estCorrecte) {
             if (repondu) return
             repondu = true
+            totalQuestions++
 
-            let continuerBtn = document.getElementById('continuer')
+            document.querySelectorAll('.reponse-btn').forEach(b => b.disabled = true)
+
             let feedback = document.getElementById('feedback')
-
-            document.querySelectorAll('.reponse-btn').forEach(b => b.style.pointerEvents = 'none')
+            let continuer = document.getElementById('continuer')
 
             if (estCorrecte) {
                 btn.classList.add('correct')
-                feedback.textContent = '✅ Bravo ! C\'est la bonne réponse !'
+                bonnesReponses++
+                bonnesConsecutives++
+
+                feedback.textContent = bonnesConsecutives >= 2
+                    ? '🔥 Excellent ! Tu enchaînes les bonnes réponses !'
+                    : '✅ Bravo ! C\'est la bonne réponse !'
                 feedback.className = 'feedback correct'
-                continuerBtn.className = 'continuer-btn correct'
+                continuer.className = 'continuer-btn correct'
+
+                // Montée de niveau après 2 bonnes consécutives
+                if (bonnesConsecutives >= 2 && niveau < 3) {
+                    niveau++
+                    bonnesConsecutives = 0
+                    feedback.textContent += ` 🚀 Niveau ${niveau} débloqué !`
+                }
+
             } else {
                 btn.classList.add('incorrect')
-                feedback.textContent = '❌ Pas tout à fait... La bonne réponse était 1'
+                bonnesConsecutives = 0
+
+                // Montrer la bonne réponse
+                let q = getQuestion()
+                document.querySelectorAll('.reponse-btn')[q.bonne].classList.add('correct')
+
+                feedback.textContent = `❌ Pas tout à fait... La bonne réponse était "${q.reponses[q.bonne]}". Essaie de retenir !`
                 feedback.className = 'feedback incorrect'
-                continuerBtn.className = 'continuer-btn incorrect'
+                continuer.className = 'continuer-btn incorrect'
             }
 
-            continuerBtn.textContent = 'CONTINUER'
+            questionIndex++
         }
+
+        // ── CONTINUER ─────────────────────────────────────────
 
         function continuer() {
             if (!repondu) return
-            window.location.href = 'exercice.html'
+            afficherQuestion()
         }
+
+        // ── RÉSULTAT FINAL ────────────────────────────────────
+
+        function afficherResultat() {
+            document.getElementById('topBar').style.display = 'none'
+            document.getElementById('niveauBadge').style.display = 'none'
+            document.getElementById('exerciceType').style.display = 'none'
+            document.getElementById('questionSection').style.display = 'none'
+            document.getElementById('reponses').style.display = 'none'
+            document.getElementById('feedback').style.display = 'none'
+            document.getElementById('bottomBar').style.display = 'none'
+
+            let resultat = document.getElementById('resultat')
+            resultat.classList.add('show')
+
+            let pct = Math.round((bonnesReponses / QUESTIONS_PAR_SESSION) * 100)
+
+            if (pct >= 80) {
+                document.getElementById('resultatCoq').textContent = '🎉'
+                document.getElementById('resultatTitre').textContent = 'Excellent travail !'
+            } else if (pct >= 60) {
+                document.getElementById('resultatCoq').textContent = '👍'
+                document.getElementById('resultatTitre').textContent = 'Bien joué !'
+            } else {
+                document.getElementById('resultatCoq').textContent = '💪'
+                document.getElementById('resultatTitre').textContent = 'Continue comme ça !'
+            }
+
+            document.getElementById('resultatScore').textContent =
+                `${bonnesReponses} bonnes réponses sur ${QUESTIONS_PAR_SESSION}`
+
+            document.getElementById('resultatNiveau').textContent =
+                `Tu termines au Niveau ${niveau} ${'⭐'.repeat(niveau)}`
+
+            // Diminuer les crédits à la fin de la session
+            diminuerCredits()
+        }
+
+        // ── RECOMMENCER ───────────────────────────────────────
+
+        function recommencer() {
+            niveau = 1
+            questionIndex = 0
+            bonnesReponses = 0
+            totalQuestions = 0
+            bonnesConsecutives = 0
+
+            document.getElementById('topBar').style.display = 'flex'
+            document.getElementById('niveauBadge').style.display = 'inline-flex'
+            document.getElementById('exerciceType').style.display = 'flex'
+            document.getElementById('questionSection').style.display = 'flex'
+            document.getElementById('reponses').style.display = 'flex'
+            document.getElementById('bottomBar').style.display = 'block'
+            document.getElementById('resultat').classList.remove('show')
+
+            afficherQuestion()
+        }
+
+        // ── LANCEMENT ─────────────────────────────────────────
+        init()
     </script>
 
 </body>
