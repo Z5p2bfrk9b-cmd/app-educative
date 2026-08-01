@@ -338,58 +338,68 @@
         // ── DONNÉES ──────────────────────────────────────────
 
         const questionsParNiveau = {
-            1: [
-                {
-                    question: "Combien fait ¼ + ¼ ?",
-                    reponses: ["¼", "½", "1", "2"],
-                    bonne: 1
-                },
-                {
-                    question: "Quelle fraction est la plus grande : ½ ou ¼ ?",
-                    reponses: ["¼", "½", "Elles sont égales", "Je sais pas"],
-                    bonne: 1
-                },
-                {
-                    question: "Combien font 2/4 simplifiés ?",
-                    reponses: ["1/4", "1/2", "2/2", "3/4"],
-                    bonne: 1
-                }
-            ],
-            2: [
-                {
-                    question: "Combien fait ¾ + ¼ ?",
-                    reponses: ["½", "1", "2", "¼"],
-                    bonne: 1
-                },
-                {
-                    question: "Combien fait ⅔ + ⅓ ?",
-                    reponses: ["⅓", "⅔", "1", "2/6"],
-                    bonne: 2
-                },
-                {
-                    question: "Simplifie 6/8",
-                    reponses: ["2/4", "3/4", "1/2", "4/6"],
-                    bonne: 1
-                }
-            ],
-            3: [
-                {
-                    question: "Combien fait ½ + ⅓ ?",
-                    reponses: ["2/5", "5/6", "⅔", "1"],
-                    bonne: 1
-                },
-                {
-                    question: "Combien fait ¾ - ¼ ?",
-                    reponses: ["¼", "½", "⅔", "1"],
-                    bonne: 1
-                },
-                {
-                    question: "Quelle est la forme simplifiée de 9/12 ?",
-                    reponses: ["2/3", "3/4", "4/6", "1/2"],
-                    bonne: 1
-                }
-            ]
+      1: [
+        {
+            question: "Combien fait ¼ + ¼ ?",
+            reponses: ["¼", "½", "1", "2"],
+            bonne: 1,
+            explication: "¼ + ¼ = 2/4 = ½. On additionne les numérateurs (1+1=2) et on garde le même dénominateur (4), puis on simplifie."
+        },
+        {
+            question: "Quelle fraction est la plus grande : ½ ou ¼ ?",
+            reponses: ["¼", "½", "Elles sont égales", "Je sais pas"],
+            bonne: 1,
+            explication: "½ est plus grand que ¼. Plus le dénominateur est petit, plus la fraction est grande. Imagine une pizza coupée en 2 ou en 4 parts !"
+        },
+        {
+            question: "Combien font 2/4 simplifiés ?",
+            reponses: ["1/4", "1/2", "2/2", "3/4"],
+            bonne: 1,
+            explication: "2/4 = ½ car on divise le numérateur ET le dénominateur par 2. C'est la même quantité exprimée plus simplement."
         }
+    ],
+    2: [
+        {
+            question: "Combien fait ¾ + ¼ ?",
+            reponses: ["½", "1", "2", "¼"],
+            bonne: 1,
+            explication: "¾ + ¼ = 4/4 = 1. On additionne les numérateurs (3+1=4) et le dénominateur reste 4. 4/4 = 1 entier !"
+        },
+        {
+            question: "Combien fait ⅔ + ⅓ ?",
+            reponses: ["⅓", "⅔", "1", "2/6"],
+            bonne: 2,
+            explication: "⅔ + ⅓ = 3/3 = 1. On additionne 2+1=3 au numérateur, le dénominateur reste 3. 3/3 = 1 entier !"
+        },
+        {
+            question: "Simplifie 6/8",
+            reponses: ["2/4", "3/4", "1/2", "4/6"],
+            bonne: 1,
+            explication: "6/8 = ¾. On divise 6 et 8 par leur plus grand diviseur commun qui est 2. 6÷2=3 et 8÷2=4 donc 3/4."
+        }
+    ],
+    3: [
+        {
+            question: "Combien fait ½ + ⅓ ?",
+            reponses: ["2/5", "5/6", "⅔", "1"],
+            bonne: 1,
+            explication: "½ + ⅓ = 3/6 + 2/6 = 5/6. Il faut d'abord trouver un dénominateur commun (6), puis convertir chaque fraction."
+        },
+        {
+            question: "Combien fait ¾ - ¼ ?",
+            reponses: ["¼", "½", "⅔", "1"],
+            bonne: 1,
+            explication: "¾ - ¼ = 2/4 = ½. On soustrait les numérateurs (3-1=2) et le dénominateur reste 4. Puis on simplifie 2/4 = ½."
+        },
+        {
+            question: "Quelle est la forme simplifiée de 9/12 ?",
+            reponses: ["2/3", "3/4", "4/6", "1/2"],
+            bonne: 1,
+            explication: "9/12 = ¾. Le plus grand diviseur commun de 9 et 12 est 3. 9÷3=3 et 12÷3=4 donc 3/4."
+        }
+    ]
+}
+
 
         // ── ÉTAT ─────────────────────────────────────────────
 
@@ -513,7 +523,7 @@
                 let q = getQuestion()
                 document.querySelectorAll('.reponse-btn')[q.bonne].classList.add('correct')
 
-                feedback.textContent = `❌ Pas tout à fait... La bonne réponse était "${q.reponses[q.bonne]}". Essaie de retenir !`
+                feedback.innerHTML = `❌ <strong>La bonne réponse était "${q.reponses[q.bonne]}"</strong><br><br>💡 ${q.explication}`
                 feedback.className = 'feedback incorrect'
                 continuer.className = 'continuer-btn incorrect'
             }
