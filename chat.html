@@ -18,10 +18,9 @@
             margin: 0 auto;
         }
 
-        /* HEADER */
         .header {
             background: #6B9FE4;
-            padding: 16px 14px;
+            padding: 44px 14px 14px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -57,11 +56,8 @@
             font-weight: 700;
         }
 
-        .coq-avatar {
-            font-size: 32px;
-        }
+        .coq-avatar { font-size: 32px; }
 
-        /* MESSAGES */
         .messages {
             flex: 1;
             padding: 16px;
@@ -69,7 +65,7 @@
             flex-direction: column;
             gap: 14px;
             overflow-y: auto;
-            padding-bottom: 100px;
+            padding-bottom: 140px;
         }
 
         .message {
@@ -115,7 +111,6 @@
             border-bottom-right-radius: 4px;
         }
 
-        /* SUGGESTIONS */
         .suggestions {
             padding: 0 16px 8px;
             display: flex;
@@ -141,7 +136,6 @@
             color: #fff;
         }
 
-        /* INPUT */
         .input-bar {
             position: fixed;
             bottom: 0;
@@ -170,9 +164,7 @@
             color: #333;
         }
 
-        .input-field:focus {
-            border-color: #6B9FE4;
-        }
+        .input-field:focus { border-color: #6B9FE4; }
 
         .send-btn {
             width: 44px;
@@ -197,7 +189,11 @@
             stroke-linejoin: round;
         }
 
-        /* TYPING */
+        .send-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
         .typing {
             display: flex;
             gap: 4px;
@@ -224,6 +220,17 @@
             0%, 60%, 100% { transform: translateY(0); }
             30% { transform: translateY(-6px); }
         }
+
+        .credits-bar {
+            padding: 6px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #e8a000;
+        }
     </style>
 </head>
 <body>
@@ -232,46 +239,25 @@
         <a class="back-btn" href="ia.html">←</a>
         <div class="header-info">
             <div class="header-title">Explication IA</div>
-            <div class="header-sub">Les fractions · Mathématiques</div>
+            <div class="header-sub" id="headerSub">Les fractions · Mathématiques</div>
         </div>
         <div class="coq-avatar">🐓</div>
     </div>
 
-    <div class="messages" id="messages">
+    <div class="credits-bar" id="creditsBar">⚡ 100%</div>
 
-        <div class="message ia">
-            <div class="message-avatar">🐓</div>
-            <div class="message-bubble">
-                Salut ! Je suis là pour t'expliquer les fractions. Tu veux qu'on commence par quoi ? Tu peux me poser n'importe quelle question 😊
-            </div>
-        </div>
+    <div class="messages" id="messages"></div>
 
-        <div class="message eleve">
-            <div class="message-bubble">
-                Je comprends pas comment additionner des fractions
-            </div>
-        </div>
-
-        <div class="message ia">
-            <div class="message-avatar">🐓</div>
-            <div class="message-bubble">
-                Pas de souci ! Pour additionner des fractions il faut d'abord que les dénominateurs soient identiques.<br><br>
-                Par exemple : ¼ + ¼ = 2/4 = ½<br><br>
-                Tu vois la logique ? On additionne juste les numérateurs (les chiffres du haut) 😊
-            </div>
-        </div>
-
-    </div>
-
-    <div class="suggestions">
-        <button class="suggestion-btn" onclick="envoyer('Je ne comprends pas encore')">Je ne comprends pas encore</button>
-        <button class="suggestion-btn" onclick="envoyer('Donne moi un exemple')">Donne moi un exemple</button>
+    <div class="suggestions" id="suggestions">
+        <button class="suggestion-btn" onclick="envoyer('Je ne comprends pas encore, explique autrement')">Explique autrement</button>
+        <button class="suggestion-btn" onclick="envoyer('Donne moi un exemple concret')">Un exemple</button>
         <button class="suggestion-btn" onclick="envoyer('Je veux faire des exercices')">Faire des exercices</button>
     </div>
 
     <div class="input-bar">
-        <input class="input-field" id="input" placeholder="Pose ta question..." onkeypress="if(event.key==='Enter') envoyer()">
-        <button class="send-btn" onclick="envoyer()">
+        <input class="input-field" id="input" placeholder="Pose ta question..." 
+            onkeypress="if(event.key==='Enter') envoyer()">
+        <button class="send-btn" id="sendBtn" onclick="envoyer()">
             <svg viewBox="0 0 24 24">
                 <line x1="22" y1="2" x2="11" y2="13"/>
                 <polygon points="22 2 15 22 11 13 2 9 22 2"/>
@@ -280,49 +266,179 @@
     </div>
 
     <script>
-        function envoyer(texte) {
-            let input = document.getElementById('input')
+        // ── CONFIG ────────────────────────────────────────────
+        const CLE_API = 'cles' 
+        const estPremium = false
+        let credits = parseInt(localStorage.getItem('credits') || '100')
+
+        // Contexte du chapitre — plus tard viendra de Supabase
+        const contexte = {
+            matiere: 'Mathématiques',
+            chapitre: 'Les fractions',
+            classe: '4ème',
+            niveau: 'Je débute'
+        }
+
+        // Historique des messages pour OpenAI
+        let historique = [
+            {
+                role: 'system',
+                content: `Tu es EPPIA, un tuteur IA bienveillant et pédagogique pour les élèves français.
+Tu aides un élève de ${contexte.classe} qui étudie "${contexte.chapitre}" en ${contexte.matiere}.
+Son niveau sur ce chapitre : ${contexte.niveau}.
+Règles importantes :
+- Explique toujours simplement avec des exemples concrets
+- Utilise des analogies du quotidien
+- Si l'élève ne comprend pas, réexplique différemment
+- Sois encourageant et positif
+- Réponds en français
+- Garde tes réponses courtes et claires (3-5 phrases max)
+- Tu t'appelles EPPIA et tu utilises parfois 🐓 à la fin de tes messages`
+            }
+        ]
+
+        // ── INIT ──────────────────────────────────────────────
+        function init() {
+            afficherCredits()
+            document.getElementById('headerSub').textContent =
+                `${contexte.chapitre} · ${contexte.matiere}`
+
+            // Message de bienvenue
+            ajouterMessage('ia',
+                `Salut ! Je suis là pour t'expliquer ${contexte.chapitre} en ${contexte.matiere}. Qu'est-ce que tu ne comprends pas ? Pose-moi n'importe quelle question ! 🐓`
+            )
+        }
+
+        // ── CRÉDITS ───────────────────────────────────────────
+        function afficherCredits() {
+            let bar = document.getElementById('creditsBar')
+            if (estPremium) {
+                bar.innerHTML = '⚡ Premium — illimité'
+                bar.style.color = '#00a060'
+            } else {
+                bar.innerHTML = `⚡ ${credits}% de crédits restants`
+            }
+        }
+
+        function diminuerCredits() {
+            if (estPremium) return
+            credits = Math.max(0, credits - 5)
+            localStorage.setItem('credits', credits)
+            afficherCredits()
+        }
+
+        // ── MESSAGES ─────────────────────────────────────────
+        function ajouterMessage(type, texte) {
             let messages = document.getElementById('messages')
+            let div = document.createElement('div')
+            div.className = `message ${type}`
+
+            if (type === 'ia') {
+                div.innerHTML = `
+                    <div class="message-avatar">🐓</div>
+                    <div class="message-bubble">${texte}</div>
+                `
+            } else {
+                div.innerHTML = `
+                    <div class="message-bubble">${texte}</div>
+                `
+            }
+
+            messages.appendChild(div)
+            messages.scrollTop = messages.scrollHeight
+        }
+
+        function afficherTyping() {
+            let messages = document.getElementById('messages')
+            let div = document.createElement('div')
+            div.className = 'message ia'
+            div.id = 'typing'
+            div.innerHTML = `
+                <div class="message-avatar">🐓</div>
+                <div class="typing">
+                    <span></span><span></span><span></span>
+                </div>
+            `
+            messages.appendChild(div)
+            messages.scrollTop = messages.scrollHeight
+        }
+
+        // ── ENVOI ─────────────────────────────────────────────
+        async function envoyer(texte) {
+            let input = document.getElementById('input')
             let msg = texte || input.value.trim()
             if (!msg) return
 
-            // Message élève
-            messages.innerHTML += `
-                <div class="message eleve">
-                    <div class="message-bubble">${msg}</div>
-                </div>
-            `
+            // Vérifier les crédits
+            if (!estPremium && credits <= 0) {
+                ajouterMessage('ia',
+                    '⚡ Tu n\'as plus de crédits ! Lis une actualité pour en regagner 🐓'
+                )
+                return
+            }
 
+            // Afficher message élève
+            ajouterMessage('eleve', msg)
             input.value = ''
-            messages.scrollTop = messages.scrollHeight
 
-            // Animation typing
-            messages.innerHTML += `
-                <div class="message ia" id="typing">
-                    <div class="message-avatar">🐓</div>
-                    <div class="typing">
-                        <span></span><span></span><span></span>
-                    </div>
-                </div>
-            `
-            messages.scrollTop = messages.scrollHeight
+            // Désactiver le bouton
+            document.getElementById('sendBtn').disabled = true
+            document.getElementById('suggestions').style.display = 'none'
 
-            // Réponse simulée après 1.5s
-            setTimeout(() => {
+            // Ajouter au historique
+            historique.push({ role: 'user', content: msg })
+
+            // Afficher typing
+            afficherTyping()
+
+            try {
+                // Appel OpenAI
+                const reponse = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': CLE_API,
+                        'anthropic-version': '2023-06-01'
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-haiku-4-5-20251001',
+                        max_tokens: 500,
+                        system: historique[0].content,
+                        messages: historique.slice(1)
+                    })
+                })
+
+                let data = await reponse.json()
+                let texteIA = data.content[0].text
+
+                // Supprimer typing
                 document.getElementById('typing')?.remove()
-                messages.innerHTML += `
-                    <div class="message ia">
-                        <div class="message-avatar">🐓</div>
-                        <div class="message-bubble">
-                            Bonne question ! Laisse moi t'expliquer ça autrement... 🐓
-                        </div>
-                    </div>
-                `
-                messages.scrollTop = messages.scrollHeight
-            }, 1500)
+
+                // Afficher réponse
+                ajouterMessage('ia', texteIA)
+
+                // Ajouter au historique
+                historique.push({ role: 'assistant', content: texteIA })
+
+                // Diminuer crédits
+                diminuerCredits()
+
+            } catch (erreur) {
+                document.getElementById('typing')?.remove()
+                ajouterMessage('ia',
+                    '😕 Oups, une erreur s\'est produite. Vérifie ta connexion et réessaie !'
+                )
+                console.error(erreur)
+            }
+
+            // Réactiver le bouton
+            document.getElementById('sendBtn').disabled = false
+            document.getElementById('suggestions').style.display = 'flex'
         }
+
+        // ── LANCEMENT ─────────────────────────────────────────
+        init()
     </script>
 
 </body>
 </html>
-
