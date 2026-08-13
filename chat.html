@@ -43,20 +43,20 @@
         }
 
         .header-info { flex: 1; }
-
-        .header-title {
-            font-size: 16px;
-            font-weight: 900;
-            color: #fff;
-        }
-
-        .header-sub {
-            font-size: 11px;
-            color: rgba(255,255,255,0.75);
-            font-weight: 700;
-        }
-
+        .header-title { font-size: 16px; font-weight: 900; color: #fff; }
+        .header-sub { font-size: 11px; color: rgba(255,255,255,0.75); font-weight: 700; }
         .coq-avatar { font-size: 32px; }
+
+        .credits-bar {
+            padding: 6px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #e8a000;
+        }
 
         .messages {
             flex: 1;
@@ -74,21 +74,10 @@
             align-items: flex-end;
         }
 
-        .message.ia {
-            align-self: flex-start;
-            max-width: 85%;
-        }
+        .message.ia { align-self: flex-start; max-width: 85%; }
+        .message.eleve { align-self: flex-end; flex-direction: row-reverse; max-width: 85%; }
 
-        .message.eleve {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-            max-width: 85%;
-        }
-
-        .message-avatar {
-            font-size: 24px;
-            flex-shrink: 0;
-        }
+        .message-avatar { font-size: 24px; flex-shrink: 0; }
 
         .message-bubble {
             padding: 12px 16px;
@@ -131,10 +120,7 @@
             transition: all 0.15s;
         }
 
-        .suggestion-btn:hover {
-            background: #6B9FE4;
-            color: #fff;
-        }
+        .suggestion-btn:hover { background: #6B9FE4; color: #fff; }
 
         .input-bar {
             position: fixed;
@@ -189,11 +175,6 @@
             stroke-linejoin: round;
         }
 
-        .send-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
         .typing {
             display: flex;
             gap: 4px;
@@ -220,17 +201,6 @@
             0%, 60%, 100% { transform: translateY(0); }
             30% { transform: translateY(-6px); }
         }
-
-        .credits-bar {
-            padding: 6px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #e8a000;
-        }
     </style>
 </head>
 <body>
@@ -239,7 +209,7 @@
         <a class="back-btn" href="ia.html">←</a>
         <div class="header-info">
             <div class="header-title">Explication IA</div>
-            <div class="header-sub" id="headerSub">Les fractions · Mathématiques</div>
+            <div class="header-sub">Les fractions · Mathématiques</div>
         </div>
         <div class="coq-avatar">🐓</div>
     </div>
@@ -249,15 +219,15 @@
     <div class="messages" id="messages"></div>
 
     <div class="suggestions" id="suggestions">
-        <button class="suggestion-btn" onclick="envoyer('Je ne comprends pas encore, explique autrement')">Explique autrement</button>
-        <button class="suggestion-btn" onclick="envoyer('Donne moi un exemple concret')">Un exemple</button>
+        <button class="suggestion-btn" onclick="envoyer('Je ne comprends pas encore')">Je ne comprends pas</button>
+        <button class="suggestion-btn" onclick="envoyer('Donne moi un exemple')">Un exemple</button>
         <button class="suggestion-btn" onclick="envoyer('Je veux faire des exercices')">Faire des exercices</button>
     </div>
 
     <div class="input-bar">
-        <input class="input-field" id="input" placeholder="Pose ta question..." 
+        <input class="input-field" id="input" placeholder="Pose ta question..."
             onkeypress="if(event.key==='Enter') envoyer()">
-        <button class="send-btn" id="sendBtn" onclick="envoyer()">
+        <button class="send-btn" onclick="envoyer()">
             <svg viewBox="0 0 24 24">
                 <line x1="22" y1="2" x2="11" y2="13"/>
                 <polygon points="22 2 15 22 11 13 2 9 22 2"/>
@@ -266,48 +236,60 @@
     </div>
 
     <script>
-        // ── CONFIG ────────────────────────────────────────────
-        const CLE_API = 'cles' 
         const estPremium = false
         let credits = parseInt(localStorage.getItem('credits') || '100')
 
-        // Contexte du chapitre — plus tard viendra de Supabase
-        const contexte = {
-            matiere: 'Mathématiques',
-            chapitre: 'Les fractions',
-            classe: '4ème',
-            niveau: 'Je débute'
-        }
-
-        // Historique des messages pour OpenAI
-        let historique = [
+        // ── RÉPONSES SIMULÉES ─────────────────────────────────
+        const reponses = [
             {
-                role: 'system',
-                content: `Tu es EPPIA, un tuteur IA bienveillant et pédagogique pour les élèves français.
-Tu aides un élève de ${contexte.classe} qui étudie "${contexte.chapitre}" en ${contexte.matiere}.
-Son niveau sur ce chapitre : ${contexte.niveau}.
-Règles importantes :
-- Explique toujours simplement avec des exemples concrets
-- Utilise des analogies du quotidien
-- Si l'élève ne comprend pas, réexplique différemment
-- Sois encourageant et positif
-- Réponds en français
-- Garde tes réponses courtes et claires (3-5 phrases max)
-- Tu t'appelles EPPIA et tu utilises parfois 🐓 à la fin de tes messages`
+                mots: ['fraction', 'fractions', 'c\'est quoi', 'kesako', 'définition'],
+                reponse: `Une fraction c'est une façon d'écrire une division. Par exemple ½ ça veut dire 1 divisé par 2. Le chiffre du haut s'appelle le numérateur et le chiffre du bas le dénominateur. Imagine une pizza coupée en parts égales — si tu manges 1 part sur 4, tu as mangé ¼ de la pizza ! 🐓`
+            },
+            {
+                mots: ['additionner', 'addition', 'ajouter', '+', 'plus'],
+                reponse: `Pour additionner des fractions il faut que les dénominateurs soient identiques. Si c'est le cas, tu additionnes juste les numérateurs ! Par exemple ¼ + ¼ = 2/4 = ½. Si les dénominateurs sont différents, comme ½ + ⅓, il faut d'abord les mettre au même dénominateur. Le plus petit commun multiple de 2 et 3 est 6, donc ½ = 3/6 et ⅓ = 2/6, et 3/6 + 2/6 = 5/6 🐓`
+            },
+            {
+                mots: ['simplifier', 'simplification', 'réduire', 'simple'],
+                reponse: `Simplifier une fraction ça veut dire l'écrire de la façon la plus simple possible, sans changer sa valeur. Par exemple 2/4 = ½ — c'est la même chose ! Pour simplifier tu cherches le plus grand nombre qui divise à la fois le numérateur et le dénominateur. Pour 6/8, ce nombre c'est 2 : 6÷2=3 et 8÷2=4, donc 6/8 = ¾ 🐓`
+            },
+            {
+                mots: ['soustraire', 'soustraction', '-', 'moins'],
+                reponse: `La soustraction de fractions fonctionne comme l'addition — il faut le même dénominateur. Si les dénominateurs sont identiques, tu soustrais les numérateurs. Par exemple ¾ - ¼ = 2/4 = ½. Si les dénominateurs sont différents, tu les mets au même dénominateur d'abord 🐓`
+            },
+            {
+                mots: ['multiplier', 'multiplication', 'fois', 'x'],
+                reponse: `Pour multiplier des fractions c'est beaucoup plus simple ! Tu multiplies les numérateurs entre eux et les dénominateurs entre eux. Par exemple ½ × ⅓ = 1×1 / 2×3 = 1/6. Pas besoin de chercher un dénominateur commun ! 🐓`
+            },
+            {
+                mots: ['diviser', 'division', 'partager', '÷'],
+                reponse: `Pour diviser par une fraction, tu multiplies par son inverse ! Par exemple ½ ÷ ¼ = ½ × 4/1 = 4/2 = 2. L'inverse de ¼ c'est 4/1 — on retourne simplement la fraction. C'est le truc le plus important à retenir pour les divisions de fractions 🐓`
+            },
+            {
+                mots: ['comprends pas', 'je comprends pas', 'pas compris', 'encore', 'autrement', 'différemment'],
+                reponse: `Pas de panique ! Essaie d'imaginer une barre de chocolat. Si tu la coupes en 4 morceaux égaux, chaque morceau c'est ¼. Si tu en prends 3, tu as ¾. Les fractions c'est juste une façon de dire "combien de parts sur le total". Tu veux que j'explique une partie spécifique ? 🐓`
+            },
+            {
+                mots: ['exemple', 'exemples', 'concret', 'application'],
+                reponse: `Voilà des exemples du quotidien 🎯\n\n• Une demi-heure = ½ heure = 30 minutes\n• Un quart d'heure = ¼ heure = 15 minutes\n• Une pizza coupée en 8 : chaque part = 1/8\n• 3 parts de pizza = 3/8 de la pizza\n\nLes fractions sont partout dans la vie ! 🐓`
+            },
+            {
+                mots: ['exercice', 'exercices', 'pratiquer', 'entraîner', 's\'entraîner'],
+                reponse: `Super idée de vouloir pratiquer ! Clique sur le bouton "←" en haut puis choisis "Exercices progressifs" pour t'entraîner avec des questions qui s'adaptent à ton niveau. C'est le meilleur moyen de vraiment mémoriser 🐓`
+            },
+            {
+                mots: ['merci', 'super', 'génial', 'top', 'bravo', 'cool'],
+                reponse: `Avec plaisir ! Tu es vraiment courageux(se) de travailler tes maths. Continue comme ça et tu vas vite maîtriser les fractions 💪 Tu as d'autres questions ? 🐓`
             }
         ]
 
-        // ── INIT ──────────────────────────────────────────────
-        function init() {
-            afficherCredits()
-            document.getElementById('headerSub').textContent =
-                `${contexte.chapitre} · ${contexte.matiere}`
+        const reponsesDefaut = [
+            `Bonne question ! Pour les fractions, le plus important c'est de comprendre que c'est une division. Tu peux me préciser ce qui te bloque exactement ? 🐓`,
+            `Je suis là pour t'aider ! Dis-moi exactement quelle partie des fractions te pose problème et je vais t'expliquer autrement 🐓`,
+            `Hmm, laisse-moi t'expliquer ça différemment. Les fractions représentent des parties d'un tout. Tu veux un exemple avec quelque chose que tu connais bien ? 🐓`
+        ]
 
-            // Message de bienvenue
-            ajouterMessage('ia',
-                `Salut ! Je suis là pour t'expliquer ${contexte.chapitre} en ${contexte.matiere}. Qu'est-ce que tu ne comprends pas ? Pose-moi n'importe quelle question ! 🐓`
-            )
-        }
+        let reponsesDefautIndex = 0
 
         // ── CRÉDITS ───────────────────────────────────────────
         function afficherCredits() {
@@ -336,12 +318,10 @@ Règles importantes :
             if (type === 'ia') {
                 div.innerHTML = `
                     <div class="message-avatar">🐓</div>
-                    <div class="message-bubble">${texte}</div>
+                    <div class="message-bubble">${texte.replace(/\n/g, '<br>')}</div>
                 `
             } else {
-                div.innerHTML = `
-                    <div class="message-bubble">${texte}</div>
-                `
+                div.innerHTML = `<div class="message-bubble">${texte}</div>`
             }
 
             messages.appendChild(div)
@@ -363,81 +343,49 @@ Règles importantes :
             messages.scrollTop = messages.scrollHeight
         }
 
+        // ── TROUVER RÉPONSE ───────────────────────────────────
+        function trouverReponse(msg) {
+            let msgLower = msg.toLowerCase()
+
+            for (let r of reponses) {
+                for (let mot of r.mots) {
+                    if (msgLower.includes(mot)) {
+                        return r.reponse
+                    }
+                }
+            }
+
+            let rep = reponsesDefaut[reponsesDefautIndex % reponsesDefaut.length]
+            reponsesDefautIndex++
+            return rep
+        }
+
         // ── ENVOI ─────────────────────────────────────────────
-        async function envoyer(texte) {
+        function envoyer(texte) {
             let input = document.getElementById('input')
             let msg = texte || input.value.trim()
             if (!msg) return
 
-            // Vérifier les crédits
             if (!estPremium && credits <= 0) {
-                ajouterMessage('ia',
-                    '⚡ Tu n\'as plus de crédits ! Lis une actualité pour en regagner 🐓'
-                )
+                ajouterMessage('ia', '⚡ Tu n\'as plus de crédits ! Lis une actualité pour en regagner 🐓')
                 return
             }
 
-            // Afficher message élève
             ajouterMessage('eleve', msg)
             input.value = ''
 
-            // Désactiver le bouton
-            document.getElementById('sendBtn').disabled = true
-            document.getElementById('suggestions').style.display = 'none'
-
-            // Ajouter au historique
-            historique.push({ role: 'user', content: msg })
-
-            // Afficher typing
             afficherTyping()
 
-            try {
-                // Appel OpenAI
-                const reponse = await fetch('https://api.anthropic.com/v1/messages', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-api-key': CLE_API,
-                        'anthropic-version': '2023-06-01'
-                    },
-                    body: JSON.stringify({
-                        model: 'claude-haiku-4-5-20251001',
-                        max_tokens: 500,
-                        system: historique[0].content,
-                        messages: historique.slice(1)
-                    })
-                })
-
-                let data = await reponse.json()
-                let texteIA = data.content[0].text
-
-                // Supprimer typing
+            setTimeout(() => {
                 document.getElementById('typing')?.remove()
-
-                // Afficher réponse
-                ajouterMessage('ia', texteIA)
-
-                // Ajouter au historique
-                historique.push({ role: 'assistant', content: texteIA })
-
-                // Diminuer crédits
+                ajouterMessage('ia', trouverReponse(msg))
                 diminuerCredits()
-
-            } catch (erreur) {
-                document.getElementById('typing')?.remove()
-                ajouterMessage('ia',
-                    '😕 Oups, une erreur s\'est produite. Vérifie ta connexion et réessaie !'
-                )
-                console.error(erreur)
-            }
-
-            // Réactiver le bouton
-            document.getElementById('sendBtn').disabled = false
-            document.getElementById('suggestions').style.display = 'flex'
+            }, 1200 + Math.random() * 800)
         }
 
-        // ── LANCEMENT ─────────────────────────────────────────
-        init()
+        // ── INIT ──────────────────────────────────────────────
+        afficherCredits()
+        ajouterMessage('ia', `Salut ! Je suis là pour t'expliquer les fractions en Mathématiques. Qu'est-ce que tu ne comprends pas ? Pose-moi n'importe quelle question ! 🐓`)
     </script>
 
 </body>
