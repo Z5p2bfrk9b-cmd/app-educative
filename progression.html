@@ -69,6 +69,21 @@
             color: #888;
             margin-top: 2px;
         }
+        .stat-icon {
+           margin-bottom: 6px;
+           display: flex;
+           justify-content: center;
+        }
+
+
+        /* SECTION */
+        .section-title {
+            padding: 16px 16px 10px;
+            font-size: 15px;
+            font-weight: 800;
+            color: #222;
+        }
+
 
         /* SECTION */
         .section-title {
@@ -248,31 +263,45 @@
 <body>
 
     <div class="header">
-        <div class="header-title">Progression 📈</div>
+        <div class="header-title">Progression </div>
         <div class="header-sub">Semaine du 28 juillet 2026</div>
     </div>
 
     <!-- STATS RAPIDES -->
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-emoji">🔥</div>
-            <div class="stat-value">7</div>
-            <div class="stat-label">Jours streak</div>
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#6B9FE4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
         </div>
-        <div class="stat-card">
-            <div class="stat-emoji">⭐</div>
-            <div class="stat-value">300</div>
-            <div class="stat-label">Points</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-emoji">📚</div>
-            <div class="stat-value">12</div>
-            <div class="stat-label">Exercices</div>
-        </div>
+        <div class="stat-value">7</div>
+        <div class="stat-label">Jours streak</div>
     </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#6B9FE4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+        </div>
+        <div class="stat-value">300</div>
+        <div class="stat-label">Points</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#6B9FE4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+            </svg>
+        </div>
+        <div class="stat-value">12</div>
+        <div class="stat-label">Exercices</div>
+    </div>
+</div>
+
 
     <!-- PLANNING -->
-    <div class="section-title">Planning cette semaine 🗓</div>
+    <div class="section-title">Planning cette semaine </div>
 
     <div class="planning">
 
@@ -344,7 +373,7 @@
     </div>
 
     <!-- PROGRESSION PAR MATIÈRE -->
-    <div class="section-title">Par matière 📊</div>
+    <div class="section-title">Par matière </div>
 
     <div class="matieres-progress">
 
