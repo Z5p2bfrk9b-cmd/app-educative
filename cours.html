@@ -75,41 +75,45 @@
             gap: 14px;
         }
 
-        .chapitre {
-            border-radius: 16px;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            width: 160px;
-            height: 160px;
-            min-width: 160px;
-            max-width: 160px;
-            min-height: 160px;
-            max-height: 160px;
-            transition: transform 0.15s, box-shadow 0.15s;
-            border: none;
-            overflow: hidden;
-            text-align: center;
-            box-shadow: 0 12px 24px rgba(0,0,0,0.25), inset 0 -4px 8px rgba(0,0,0,0.2), O 2px 4px rgba(0,0,0,0,1);
-            position: relative;
-        }
+      .chapitre {
+    border-radius: 16px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 160px;
+    height: 160px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    border: none;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.25), 
+                inset 0 -4px 8px rgba(0,0,0,0.15),
+                inset 0 2px 8px rgba(255,255,255,0.3);
+    position: relative;
+}
 
-
-       .chapitre::after {
+.chapitre::before {
     content: '';
     position: absolute;
-    top: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60%;
-    height: 25px;
-    background: radial-gradient(ellipse at center, rgba(255,255,255,0.6) 0%, transparent 70%);
-    border-radius: 50%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(255,255,255,0.25) 0%, transparent 70%);
+    border-radius: 16px;
     pointer-events: none;
 }
+
+.chapitre:hover {
+    box-shadow: 0 16px 32px rgba(0,0,0,0.3), 
+                inset 0 -4px 8px rgba(0,0,0,0.15),
+                inset 0 2px 8px rgba(255,255,255,0.3);
+    transform: translateY(-4px);
+}
+
 
 
 
