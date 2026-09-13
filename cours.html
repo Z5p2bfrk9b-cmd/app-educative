@@ -98,17 +98,19 @@
         }
 
 
-        .chapitre::after {
+       .chapitre::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 40%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, transparent 100%);
-    border-radius: 16px 16px 0 0;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 25px;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.6) 0%, transparent 70%);
+    border-radius: 50%;
     pointer-events: none;
 }
+
 
 
         .chapitre:nth-child(1) { align-self: flex-start; }
