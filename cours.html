@@ -6,9 +6,12 @@
     <title>EPPIA - Cours</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
-
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif;
+        }
         body {
             background: #f5f5f5;
             min-height: 100vh;
@@ -18,21 +21,20 @@
             margin: 0 auto;
             padding-bottom: 80px;
         }
-
-        /* HEADER */
+        /* =====================================================
+           HEADER
+        ===================================================== */
         .header {
             background: #6B9FE4;
             padding: 16px 14px 20px;
             border-radius: 0 0 28px 28px;
         }
-
         .header-top {
             display: flex;
             align-items: center;
             gap: 12px;
             margin-bottom: 14px;
         }
-
         .back-btn {
             background: rgba(255,255,255,0.25);
             border: none;
@@ -46,99 +48,163 @@
             display: flex;
             align-items: center;
         }
-
-
-
         .subject-title {
             font-size: 22px;
             font-weight: 900;
             color: #fff;
         }
-
         .subject-sub {
             font-size: 12px;
             color: rgba(255,255,255,0.75);
             font-weight: 700;
         }
-
-        /* SECTION */
+        /* =====================================================
+           TITRE
+        ===================================================== */
         .section-title {
             padding: 20px 16px 12px;
             font-size: 15px;
             font-weight: 800;
             color: #222;
         }
-
-        /* BULLES CHAPITRES */
+        /* =====================================================
+           CHAPITRES
+        ===================================================== */
         .chapitres {
             padding: 0 16px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 18px;
         }
-
-    .chapitre {
-    border-radius: 16px;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    width: 160px;
-    height: 160px;
-    transition: transform 0.15s, box-shadow 0.15s;
-    border: 1px solid rgba(255,255,255,0.3);
-    overflow: hidden;
-    text-align: center;
-    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.1);
-    position: relative;
-}
-
-
-
-
-
-
-        .chapitre:nth-child(1) { align-self: flex-start; }
-        .chapitre:nth-child(2) { align-self: flex-end; }
-        .chapitre:nth-child(3) { align-self: flex-start; }
-        .chapitre:nth-child(4) { align-self: flex-end; }
-        .chapitre:nth-child(5) { align-self: flex-start; }
-        .chapitre:nth-child(6) { align-self: flex-end; }
-        .chapitre:nth-child(7) { align-self: flex-start; }
-        .chapitre:nth-child(8) { align-self: flex-end; }
-
-        .chapitre:hover {
-            box-shadow: 0 12px 24px rgba(0,0,0,0.2), inset 0 -2px 4px rgba(0,0,0,0.1);
-            transform: translateY(-4px);
+        /* =====================================================
+           BULLE
+        ===================================================== */
+        .chapitre {
+            width: 160px;
+            height: 160px;
+            border-radius: 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            border: 2px solid rgba(255,255,255,0.5);
+            /*
+                Ombre principale + profondeur
+            */
+            box-shadow:
+                0 8px 0 rgba(0,0,0,0.12),
+                0 12px 25px rgba(0,0,0,0.12);
+            transition:
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
         }
-
-        .chapitre:active { transform: scale(0.97); }
-
-        .chapitre img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
+        /* =====================================================
+           REFLET GLACÉ
+        ===================================================== */
+        .chapitre::before {
+            content: "";
+            position: absolute;
+            top: 7px;
+            left: 10px;
+            width: 80%;
+            height: 48%;
+            background: linear-gradient(
+                135deg,
+                rgba(255,255,255,0.58),
+                rgba(255,255,255,0.12)
+            );
+            border-radius: 50%;
+            transform: rotate(-8deg);
+            pointer-events: none;
+            z-index: 1;
+        }
+        /* =====================================================
+           LIGNE DE LUMIÈRE
+        ===================================================== */
+        .chapitre::after {
+            content: "";
+            position: absolute;
+            top: 4px;
+            left: 9px;
+            right: 9px;
+            height: 45%;
+            border-radius: 24px;
+            border-top: 3px solid rgba(255,255,255,0.6);
+            pointer-events: none;
+            z-index: 1;
+        }
+        /* =====================================================
+           CONTENU DE LA BULLE
+        ===================================================== */
+        .chapitre svg,
+        .chapitre-name {
+            position: relative;
+            z-index: 2;
+        }
+        .chapitre svg {
             margin-bottom: 8px;
+            filter: drop-shadow(0 2px 1px rgba(0,0,0,0.08));
         }
-        .chapitre-emoji {
-           position: relative;
-           z-index: 2;
-        }
-
         .chapitre-name {
             font-size: 11px;
-            font-weight: 800;
+            font-weight: 900;
             color: #333;
             line-height: 1.3;
             word-break: break-word;
-            z-index: 2;
+            padding: 0 10px;
         }
-
-        
-
-        /* NAV */
+        /* =====================================================
+           ALIGNEMENT ALTERNÉ
+        ===================================================== */
+        .chapitre:nth-child(1) {
+            align-self: flex-start;
+        }
+        .chapitre:nth-child(2) {
+            align-self: flex-end;
+        }
+        .chapitre:nth-child(3) {
+            align-self: flex-start;
+        }
+        .chapitre:nth-child(4) {
+            align-self: flex-end;
+        }
+        .chapitre:nth-child(5) {
+            align-self: flex-start;
+        }
+        .chapitre:nth-child(6) {
+            align-self: flex-end;
+        }
+        .chapitre:nth-child(7) {
+            align-self: flex-start;
+        }
+        .chapitre:nth-child(8) {
+            align-self: flex-end;
+        }
+        /* =====================================================
+           ANIMATION AU SURVOL
+        ===================================================== */
+        .chapitre:hover {
+            transform: translateY(-5px);
+            box-shadow:
+                0 10px 0 rgba(0,0,0,0.12),
+                0 18px 30px rgba(0,0,0,0.16);
+        }
+        /* =====================================================
+           ANIMATION AU CLIC
+        ===================================================== */
+        .chapitre:active {
+            transform: translateY(3px);
+            box-shadow:
+                0 3px 0 rgba(0,0,0,0.12),
+                0 6px 12px rgba(0,0,0,0.12);
+        }
+        /* =====================================================
+           NAVIGATION
+        ===================================================== */
         .nav {
             position: fixed;
             bottom: 0;
@@ -151,8 +217,8 @@
             display: flex;
             justify-content: space-around;
             padding: 10px 0 16px;
+            z-index: 20;
         }
-
         .nav-item {
             display: flex;
             flex-direction: column;
@@ -163,9 +229,9 @@
             cursor: pointer;
             text-decoration: none;
         }
-
-        .nav-item.active { background: #f0f0ff; }
-
+        .nav-item.active {
+            background: #f0f0ff;
+        }
         .nav-icon svg {
             width: 22px;
             height: 22px;
@@ -175,151 +241,434 @@
             stroke-linecap: round;
             stroke-linejoin: round;
         }
-
-        .nav-item.active svg { stroke: #0000cc; }
-        .nav-label { font-size: 9px; font-weight: 700; color: #bbb; }
-        .nav-item.active .nav-label { color: #0000cc; }
+        .nav-item.active svg {
+            stroke: #0000cc;
+        }
+        .nav-label {
+            font-size: 9px;
+            font-weight: 700;
+            color: #bbb;
+        }
+        .nav-item.active .nav-label {
+            color: #0000cc;
+        }
     </style>
 </head>
 <body>
-
-    <!-- HEADER -->
+    <!-- =====================================================
+         HEADER
+    ===================================================== -->
     <div class="header">
         <div class="header-top">
-            <a class="back-btn" href="accueil.html">←</a>
+            <a class="back-btn" href="accueil.html">
+                ←
+            </a>
             <div>
-                <div class="subject-title">Mathématiques</div>
-                <div class="subject-sub">Choisis un chapitre</div>
+                <div class="subject-title">
+                    Mathématiques
+                </div>
+                <div class="subject-sub">
+                    Choisis un chapitre
+                </div>
             </div>
         </div>
     </div>
-
-    
-
-    <!-- CHAPITRES -->
-    <div class="section-title">Chapitres 📖</div>
-
+    <!-- =====================================================
+         TITRE
+    ===================================================== -->
+    <div class="section-title">
+        Chapitres 📖
+    </div>
+    <!-- =====================================================
+         CHAPITRES
+    ===================================================== -->
     <div class="chapitres">
-        <div class="chapitre" style="background: #f39f39;" onclick="window.location.href='ia.html'">
-
-         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width: 70px; height: 70px;">
-           <circle cx="50" cy="50" r="35" fill="#f4a460" stroke="black" stroke-width="2.5"/>
-           <circle cx="50" cy="50" r="30" fill="#ff9f43" stroke="none"/>
-           <circle cx="50" cy="35" r="3" fill="#d4520f"/>
-           <circle cx="65" cy="48" r="3" fill="#d4520f"/>
-           <circle cx="40" cy="62" r="3" fill="#d4520f"/>
-           <circle cx="60" cy="60" r="2.5" fill="#27ae60"/>
-           <line x1="50" y1="15" x2="50" y2="85" stroke="black" stroke-width="2.5"/>
-           <line x1="50" y1="50" x2="80" y2="50" stroke="black" stroke-width="2.5"/>
-       </svg>
-        <div class="chapitre-name">Les fractions</div>
-        </div>
-
-        
-        <div class="chapitre" style="background: #fff1a7;" onclick="window.location.href='ia.html'">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width: 70px; height: 70px;">
-              <line x1="15" y1="35" x2="85" y2="35" stroke="black" stroke-width="4" stroke-linecap="round"/>
-              <line x1="15" y1="65" x2="85" y2="65" stroke="black" stroke-width="4" stroke-linecap="round"/>
-           </svg>
-            <div class="chapitre-name">Les équations</div>
-        </div>
-
-        <div class="chapitre" style="background: #b890ff;" onclick="window.location.href='ia.html'">
-           <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width: 70px; height: 70px;">
-              <polygon points="50,15 20,80 80,80" fill="none" stroke="black" stroke-width="2.5"/>
-              <line x1="50" y1="15" x2="50" y2="80" stroke="black" stroke-width="2" stroke-dasharray="3,3"/>
-           </svg>
-            <div class="chapitre-name">La géométrie</div>
-        </div>
-
-        <div class="chapitre" style="background: #ed98cf;" onclick="window.location.href='ia.html'">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width: 70px; height: 70px;">
-               <rect x="15" y="55" width="16" height="30" fill="black" rx="2"/>
-               <rect x="42" y="35" width="16" height="50" fill="black" rx="2"/>
-               <rect x="69" y="45" width="16" height="40" fill="black" rx="2"/>
-           </svg>
-            <div class="chapitre-name">Les statistiques</div>
-        </div>
-
-        <div class="chapitre" style="background: #64a9fd;" onclick="window.location.href='ia.html'">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width: 50px; height: 50px;">
-              <path d="M 10 80 Q 30 40 50 50 T 90 20" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"/>
+        <!-- FRACTIONS -->
+        <div
+            class="chapitre"
+            style="background: linear-gradient(145deg, #ffb347, #ed8b22);"
+            onclick="window.location.href='ia.html'"
+        >
+            <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+                style="width:70px;height:70px;"
+            >
+                <circle
+                    cx="50"
+                    cy="50"
+                    r="35"
+                    fill="#f4a460"
+                    stroke="black"
+                    stroke-width="2.5"
+                />
+                <circle
+                    cx="50"
+                    cy="50"
+                    r="30"
+                    fill="#ff9f43"
+                />
+                <circle cx="50" cy="35" r="3" fill="#d4520f"/>
+                <circle cx="65" cy="48" r="3" fill="#d4520f"/>
+                <circle cx="40" cy="62" r="3" fill="#d4520f"/>
+                <circle cx="60" cy="60" r="2.5" fill="#27ae60"/>
+                <line
+                    x1="50"
+                    y1="15"
+                    x2="50"
+                    y2="85"
+                    stroke="black"
+                    stroke-width="2.5"
+                />
+                <line
+                    x1="50"
+                    y1="50"
+                    x2="80"
+                    y2="50"
+                    stroke="black"
+                    stroke-width="2.5"
+                />
             </svg>
-            <div class="chapitre-name">Les fonctions</div>
+            <div class="chapitre-name">
+                Les fractions
+            </div>
         </div>
-
-        <div class="chapitre" style="background: #b8447e;" onclick="window.location.href='ia.html'">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width: 70px; height: 70px;">
-               <circle cx="50" cy="50" r="30" fill="none" stroke="black" stroke-width="2.5"/>
-               <line x1="50" y1="20" x2="50" y2="80" stroke="black" stroke-width="2"/>
-               <line x1="20" y1="50" x2="80" y2="50" stroke="black" stroke-width="2"/>
-               <path d="M 50 30 A 10 10 0 0 0 65 45" fill="none" stroke="black" stroke-width="2"/>
+        <!-- EQUATIONS -->
+        <div
+            class="chapitre"
+            style="background: linear-gradient(145deg, #fff8c9, #f0dd6e);"
+            onclick="window.location.href='ia.html'"
+        >
+            <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+                style="width:70px;height:70px;"
+            >
+                <line
+                    x1="15"
+                    y1="35"
+                    x2="85"
+                    y2="35"
+                    stroke="black"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                />
+                <line
+                    x1="15"
+                    y1="65"
+                    x2="85"
+                    y2="65"
+                    stroke="black"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                />
             </svg>
-
-            
-            <div class="chapitre-name">Trigonométrie</div>
+            <div class="chapitre-name">
+                Les équations
+            </div>
         </div>
-
-        <div class="chapitre" style="background: #850606;" onclick="window.location.href='ia.html'">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width: 50px; height: 50px;">
-               <polygon points="30,30 60,20 70,50 40,60" fill="none" stroke="black" stroke-width="2"/>
-               <line x1="30" y1="30" x2="40" y2="60" stroke="black" stroke-width="2"/>
-               <circle cx="45" cy="35" r="2" fill="black"/>
-               <circle cx="50" cy="45" r="2" fill="black"/>
-               <circle cx="55" cy="50" r="2" fill="black"/>
-           </svg>
-            <div class="chapitre-name">Les probabilités</div>
-        </div>
-
-        <div class="chapitre" style="background: #1100f7;" onclick="window.location.href='ia.html'">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width: 70px; height: 70px;">
-               <line x1="20" y1="20" x2="80" y2="80" stroke="black" stroke-width="4" stroke-linecap="round"/>
-               <line x1="80" y1="20" x2="20" y2="80" stroke="black" stroke-width="4" stroke-linecap="round"/>
+        <!-- GEOMETRIE -->
+        <div
+            class="chapitre"
+            style="background: linear-gradient(145deg, #c8a9ff, #9870e8);"
+            onclick="window.location.href='ia.html'"
+        >
+            <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+                style="width:70px;height:70px;"
+            >
+                <polygon
+                    points="50,15 20,80 80,80"
+                    fill="none"
+                    stroke="black"
+                    stroke-width="2.5"
+                />
+                <line
+                    x1="50"
+                    y1="15"
+                    x2="50"
+                    y2="80"
+                    stroke="black"
+                    stroke-width="2"
+                    stroke-dasharray="3,3"
+                />
             </svg>
-            <div class="chapitre-name">Calcul littéral</div>
+            <div class="chapitre-name">
+                La géométrie
+            </div>
+        </div>
+        <!-- STATISTIQUES -->
+        <div
+            class="chapitre"
+            style="background: linear-gradient(145deg, #f3a9db, #d96ab5);"
+            onclick="window.location.href='ia.html'"
+        >
+            <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+                style="width:70px;height:70px;"
+            >
+                <rect
+                    x="15"
+                    y="55"
+                    width="16"
+                    height="30"
+                    fill="black"
+                    rx="2"
+                />
+                <rect
+                    x="42"
+                    y="35"
+                    width="16"
+                    height="50"
+                    fill="black"
+                    rx="2"
+                />
+                <rect
+                    x="69"
+                    y="45"
+                    width="16"
+                    height="40"
+                    fill="black"
+                    rx="2"
+                />
+            </svg>
+            <div class="chapitre-name">
+                Les statistiques
+            </div>
+        </div>
+        <!-- FONCTIONS -->
+        <div
+            class="chapitre"
+            style="background: linear-gradient(145deg, #73b6ff, #438de0);"
+            onclick="window.location.href='ia.html'"
+        >
+            <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+                style="width:50px;height:50px;"
+            >
+                <path
+                    d="M 10 80 Q 30 40 50 50 T 90 20"
+                    fill="none"
+                    stroke="black"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                />
+            </svg>
+            <div class="chapitre-name">
+                Les fonctions
+            </div>
+        </div>
+        <!-- TRIGONOMETRIE -->
+        <div
+            class="chapitre"
+            style="background: linear-gradient(145deg, #c95b94, #9c3268);"
+            onclick="window.location.href='ia.html'"
+        >
+            <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+                style="width:70px;height:70px;"
+            >
+                <circle
+                    cx="50"
+                    cy="50"
+                    r="30"
+                    fill="none"
+                    stroke="black"
+                    stroke-width="2.5"
+                />
+                <line
+                    x1="50"
+                    y1="20"
+                    x2="50"
+                    y2="80"
+                    stroke="black"
+                    stroke-width="2"
+                />
+                <line
+                    x1="20"
+                    y1="50"
+                    x2="80"
+                    y2="50"
+                    stroke="black"
+                    stroke-width="2"
+                />
+                <path
+                    d="M 50 30 A 10 10 0 0 0 65 45"
+                    fill="none"
+                    stroke="black"
+                    stroke-width="2"
+                />
+            </svg>
+            <div class="chapitre-name">
+                Trigonométrie
+            </div>
+        </div>
+        <!-- PROBABILITES -->
+        <div
+            class="chapitre"
+            style="background: linear-gradient(145deg, #a51b1b, #700303);"
+            onclick="window.location.href='ia.html'"
+        >
+            <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+                style="width:50px;height:50px;"
+            >
+                <polygon
+                    points="30,30 60,20 70,50 40,60"
+                    fill="none"
+                    stroke="black"
+                    stroke-width="2"
+                />
+                <line
+                    x1="30"
+                    y1="30"
+                    x2="40"
+                    y2="60"
+                    stroke="black"
+                    stroke-width="2"
+                />
+                <circle cx="45" cy="35" r="2" fill="black"/>
+                <circle cx="50" cy="45" r="2" fill="black"/>
+                <circle cx="55" cy="50" r="2" fill="black"/>
+            </svg>
+            <div class="chapitre-name">
+                Les probabilités
+            </div>
+        </div>
+        <!-- CALCUL LITTERAL -->
+        <div
+            class="chapitre"
+            style="background: linear-gradient(145deg, #3120ff, #0800c9);"
+            onclick="window.location.href='ia.html'"
+        >
+            <svg
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+                style="width:70px;height:70px;"
+            >
+                <line
+                    x1="20"
+                    y1="20"
+                    x2="80"
+                    y2="80"
+                    stroke="black"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                />
+                <line
+                    x1="80"
+                    y1="20"
+                    x2="20"
+                    y2="80"
+                    stroke="black"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                />
+            </svg>
+            <div class="chapitre-name">
+                Calcul littéral
+            </div>
         </div>
     </div>
-
-    <!-- NAV -->
+    <!-- =====================================================
+         NAVIGATION
+    ===================================================== -->
     <div class="nav">
-        <a class="nav-item active" href="accueil.html">
+        <!-- ACCUEIL -->
+        <a
+            class="nav-item active"
+            href="accueil.html"
+        >
             <div class="nav-icon">
                 <svg viewBox="0 0 24 24">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
+                    <path
+                        d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+                    />
+                    <polyline
+                        points="9 22 9 12 15 12 15 22"
+                    />
                 </svg>
             </div>
-            <div class="nav-label">Accueil</div>
+            <div class="nav-label">
+                Accueil
+            </div>
         </a>
-        <a class="nav-item" href="actualites.html">
+        <!-- ACTUALITE -->
+        <a
+            class="nav-item"
+            href="actualites.html"
+        >
             <div class="nav-icon">
                 <svg viewBox="0 0 24 24">
-                    <path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/>
-                    <path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/>
+                    <path
+                        d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"
+                    />
+                    <path
+                        d="M18 14h-8M15 18h-5M10 6h8v4h-8z"
+                    />
                 </svg>
             </div>
-            <div class="nav-label">Actualité</div>
+            <div class="nav-label">
+                Actualité
+            </div>
         </a>
-        <a class="nav-item" href="progression.html">
+        <!-- PROGRES -->
+        <a
+            class="nav-item"
+            href="progression.html"
+        >
             <div class="nav-icon">
                 <svg viewBox="0 0 24 24">
-                    <line x1="18" y1="20" x2="18" y2="10"/>
-                    <line x1="12" y1="20" x2="12" y2="4"/>
-                    <line x1="6" y1="20" x2="6" y2="14"/>
+                    <line
+                        x1="18"
+                        y1="20"
+                        x2="18"
+                        y2="10"
+                    />
+                    <line
+                        x1="12"
+                        y1="20"
+                        x2="12"
+                        y2="4"
+                    />
+                    <line
+                        x1="6"
+                        y1="20"
+                        x2="6"
+                        y2="14"
+                    />
                 </svg>
             </div>
-            <div class="nav-label">Progrès</div>
+            <div class="nav-label">
+                Progrès
+            </div>
         </a>
-        <a class="nav-item" href="profil.html">
+        <!-- PROFIL -->
+        <a
+            class="nav-item"
+            href="profil.html"
+        >
             <div class="nav-icon">
                 <svg viewBox="0 0 24 24">
-                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
+                    <path
+                        d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"
+                    />
+                    <circle
+                        cx="12"
+                        cy="7"
+                        r="4"
+                    />
                 </svg>
             </div>
-            <div class="nav-label">Profil</div>
+            <div class="nav-label">
+                Profil
+            </div>
         </a>
     </div>
-
 </body>
 </html>
