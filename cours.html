@@ -138,53 +138,7 @@
                         box-shadow 0.1s ease;
         }
 
-        /* REFLET GLACÉ */
-
-        .chapitre::before {
-            content: "";
-
-            position: absolute;
-            top: 5px;
-            left: 10%;
-
-            width: 80%;
-            height: 42%;
-
-            background: linear-gradient(
-                to bottom,
-                rgba(255, 255, 255, 0.70) 0%,
-                rgba(255, 255, 255, 0.25) 40%,
-                rgba(255, 255, 255, 0) 100%
-            );
-
-            border-radius: 50%;
-
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        /* PETIT REFLET */
-
-        .chapitre::after {
-            content: "";
-
-            position: absolute;
-
-            top: 16px;
-            left: 25px;
-
-            width: 28px;
-            height: 13px;
-
-            background: rgba(255, 255, 255, 0.30);
-
-            border-radius: 50%;
-
-            transform: rotate(-20deg);
-
-            pointer-events: none;
-            z-index: 3;
-        }
+        
 
         /* ICÔNES */
 
@@ -415,6 +369,7 @@
         </svg>
 
     </button>
+    <div class="chapitre-name">Les fractions</div>
 
 </div>
 
@@ -450,6 +405,7 @@
                 </svg>
 
             </button>
+            <div class="chapitre-name">Équations</div>
 
         </div>
 
@@ -474,6 +430,7 @@
                 </svg>
 
             </button>
+            <div class="chapitre-name">Géométrie</div>
 
         </div>
 
@@ -515,6 +472,7 @@
                 </svg>
 
             </button>
+            <div class="chapitre-name">Statistiques</div>
 
         </div>
 
@@ -558,6 +516,7 @@
                 </svg>
 
             </button>
+            <div class="chapitre-name">Fonctions</div>
 
         </div>
 
@@ -599,6 +558,7 @@
                 </svg>
 
             </button>
+            <div class="chapitre-name">Trigonométie</div>
 
         </div>
 
@@ -638,6 +598,7 @@
                 </svg>
 
             </button>
+            <div class="chapitre-name">Probabilités</div>
 
         </div>
 
@@ -672,6 +633,7 @@
                 </svg>
 
             </button>
+            <div class="chapitre-name">Calcul Littéral</div>
 
         </div>
 
