@@ -77,26 +77,21 @@
         }
 
         /* CHAPITRES */
-
-        .chapitres {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-            padding: 20px 35px 30px;
+        
+         .chapitres {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px 25px;
+            padding: 20px 25px 30px;
         }
 
         .chapitre-container {
             display: flex;
-            width: 100%;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .chapitre-container:nth-child(odd) {
-            justify-content: flex-start;
-        }
-
-        .chapitre-container:nth-child(even) {
-            justify-content: flex-end;
-        }
+     
 
         /* BOUTONS RONDS */
 
@@ -107,7 +102,7 @@
             height: 135px;
 
             border: none;
-            border-radius: 50%;
+            border-radius: 28%;
 
             cursor: pointer;
             outline: none;
@@ -119,7 +114,7 @@
             overflow: hidden;
 
             background: radial-gradient(
-                circle at 50% 30%,
+                circle at 50% 25%,
                 var(--light) 0%,
                 var(--main) 65%,
                 var(--dark) 100%
@@ -197,6 +192,16 @@
             );
         }
 
+        /* NOM DU CHAPITRE */
+
+        .chapitre-name {
+            margin-top: 12px;
+            font-size: 17px;
+            font-weight: 900;
+            color: #17345f;
+            text-align: center;
+        }
+        
         /* CLIC */
 
         .chapitre:active {
@@ -317,18 +322,24 @@
         @media (max-width: 380px) {
 
             .chapitres {
-                padding-left: 25px;
-                padding-right: 25px;
+                gap: 26px 15px;
+                padding-left: 15px;
+                padding-right: 15px;
             }
 
             .chapitre {
                 width: 120px;
                 height: 120px;
+                border-radius: 25px;
             }
 
             .chapitre svg {
                 width: 55px;
                 height: 55px;
+            }
+
+            .chapitre-name {
+                font-size: 15px;
             }
         }
     </style>
@@ -341,25 +352,19 @@
         <div class="header-top">
 
             <button class="back-button" onclick="history.back()">
-                ‹
+                
             </button>
 
-            <div class="header-title">
-                Mathématiques
-            </div>
+            <div class="header-title">Mathématiques</div>
 
         </div>
 
-        <div class="header-subtitle">
-            Choisis un chapitre
-        </div>
+        <div class="header-subtitle"> Choisis un chapitre </div>
 
     </header>
 
 
-    <h2 class="section-title">
-        Chapitres 📖
-    </h2>
+    <h2 class="section-title">Chapitres 📖</h2>
 
 
     <main class="chapitres">
