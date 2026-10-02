@@ -1,400 +1,450 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EPPIA - Choix</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPPIA - Choix</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        body {
-            background: #f5f5f5;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            max-width: 500px;
-            margin: 0 auto;
-            padding-bottom: 80px;
-        }
+    body {
+        font-family: 'Nunito', sans-serif;
+        background: #f5f5f5;
+        color: #333;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px 16px 90px;
+    }
 
-        /* HEADER */
-        .header {
-            background: #6B9FE4;
-            padding: 16px 14px 20px;
-            border-radius: 0 0 28px 28px;
-        }
+    /* Couleurs du chapitre (ici : fractions — reprises de ta page cours.html) */
+    :root {
+        --light: #ffc56f;
+        --main: #f39f39;
+        --dark: #df851f;
+        --shadow: #bd6c16;
+    }
 
-        .header-top {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+    /* ===== HEADER PILULE ===== */
 
-        .back-btn {
-            background: rgba(255,255,255,0.25);
-            border: none;
-            border-radius: 12px;
-            padding: 8px 12px;
-            color: #fff;
-            font-size: 18px;
-            cursor: pointer;
-            font-weight: 900;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
+    .header {
+        background: linear-gradient(145deg, var(--light), var(--main));
+        border-radius: 60px;
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 20px;
+        box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+    }
 
-        .chapter-title {
-            font-size: 20px;
-            font-weight: 900;
-            color: #fff;
-        }
+    .back-btn {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        border: none;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        text-decoration: none;
+    }
 
-        .chapter-sub {
-            font-size: 12px;
-            color: rgba(255,255,255,0.75);
-            font-weight: 700;
-            margin-top: 2px;
-        }
+    .back-btn svg {
+        width: 18px;
+        height: 18px;
+        stroke: #fff;
+        stroke-width: 3;
+        fill: none;
+    }
 
-        /* NIVEAU */
-        .section-title {
-            padding: 24px 16px 12px;
-            font-size: 15px;
-            font-weight: 800;
-            color: #222;
-        }
+    .chapter-title {
+        flex: 1;
+        text-align: center;
+        font-size: 19px;
+        font-weight: 900;
+        color: #fff;
+        padding-right: 40px;
+        text-shadow: 0 2px 0 rgba(0,0,0,0.08);
+    }
 
-        .niveau-container {
-            padding: 0 16px;
-            display: flex;
-            gap: 10px;
-        }
+    /* ===== SÉLECTEUR DE NIVEAU (style 3D, cohérent avec cours.html) ===== */
 
-        .niveau-btn {
-            flex: 1;
-            padding: 12px 8px;
-            border-radius: 16px;
-            border: 2px solid transparent;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            background: #fff;
-            transition: all 0.15s;
-        }
+    .niveau-box {
+        background: #fff;
+        border-radius: 24px;
+        padding: 22px 14px 16px;
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    }
 
-        .niveau-btn.selected {
-            border-color: #6B9FE4;
-            background: #eef4ff;
-        }
+    .niveau-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        background: none;
+        border: none;
+    }
 
-        .niveau-emoji { font-size: 22px; }
+    .niveau-circle {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        box-shadow:
+            0 5px 0 var(--niveau-shadow),
+            0 7px 10px rgba(0,0,0,0.15),
+            inset 0 3px 0 rgba(255,255,255,0.35),
+            inset 0 -5px 0 rgba(0,0,0,0.10);
+        transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
 
-        .niveau-text {
-            font-size: 11px;
-            font-weight: 800;
-            color: #333;
-            text-align: center;
-        }
+    .niveau-item:active .niveau-circle,
+    .niveau-item.selected .niveau-circle {
+        transform: translateY(3px);
+        box-shadow:
+            0 2px 0 var(--niveau-shadow),
+            0 3px 6px rgba(0,0,0,0.12),
+            inset 0 3px 0 rgba(255,255,255,0.3),
+            inset 0 -4px 0 rgba(0,0,0,0.10);
+    }
 
-        /* COQ */
-        .coq-section {
-            padding: 24px 16px 0;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-        }
+    .niveau-item.vert   { --niveau-shadow: #5a9e2f; }
+    .niveau-item.vert   .niveau-circle { background: radial-gradient(circle at 30% 25%, #b6e98a, #8fd14f 65%, #5a9e2f 100%); }
 
-        .coq-avatar {
-            font-size: 48px;
-            flex-shrink: 0;
-        }
+    .niveau-item.jaune  { --niveau-shadow: #d9a400; }
+    .niveau-item.jaune  .niveau-circle { background: radial-gradient(circle at 30% 25%, #ffe98f, #ffd95b 65%, #d9a400 100%); }
 
-        .coq-bubble {
-            background: #fff;
-            border-radius: 16px;
-            border: 2px solid #e0e0e0;
-            padding: 14px;
-            flex: 1;
-            position: relative;
-        }
+    .niveau-item.rouge  { --niveau-shadow: #c23a35; }
+    .niveau-item.rouge  .niveau-circle { background: radial-gradient(circle at 30% 25%, #ff8f8a, #ef5350 65%, #c23a35 100%); }
 
-        .coq-bubble::before {
-            content: '';
-            position: absolute;
-            left: -10px;
-            top: 16px;
-            border: 6px solid transparent;
-            border-right-color: #e0e0e0;
-        }
+    .niveau-label {
+        background: #f0f0f0;
+        border-radius: 14px;
+        padding: 6px 12px;
+        font-size: 12.5px;
+        font-weight: 800;
+        color: #444;
+        white-space: nowrap;
+    }
 
-        .coq-bubble::after {
-            content: '';
-            position: absolute;
-            left: -7px;
-            top: 18px;
-            border: 4px solid transparent;
-            border-right-color: #fff;
-        }
+    .niveau-item.selected .niveau-label {
+        background: #333;
+        color: #fff;
+    }
 
-        .coq-text {
-            font-size: 13px;
-            font-weight: 700;
-            color: #333;
-            line-height: 1.5;
-        }
+    /* ===== MASCOTTE + BULLE ===== */
 
-        /* CHOIX MODE */
-        .mode-title {
-            padding: 24px 16px 12px;
-            font-size: 15px;
-            font-weight: 800;
-            color: #222;
-        }
+    .mascot-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 22px;
+    }
 
-        .modes {
-            padding: 0 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+    .mascot-emoji {
+        font-size: 46px;
+        flex-shrink: 0;
+        line-height: 1;
+    }
 
-        .mode-card {
-            border-radius: 20px;
-            padding: 20px 18px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            cursor: pointer;
-            border: none;
-            transition: transform 0.15s, box-shadow 0.15s;
-            text-decoration: none;
-        }
+    .mascot-bubble {
+        flex: 1;
+        background: #fff;
+        border-radius: 18px;
+        padding: 14px 16px;
+        font-size: 14px;
+        font-weight: 700;
+        color: #333;
+        line-height: 1.35;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+        transition: opacity 0.15s;
+    }
 
-        .mode-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-        }
+    /* ===== CARTES DE CHOIX (style 3D, bien saturé) ===== */
 
-        .mode-card:active { transform: scale(0.97); }
+    .choix-card {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        text-decoration: none;
+        border-radius: 22px;
+        padding: 18px;
+        margin-bottom: 16px;
+        box-shadow:
+            0 6px 0 var(--card-shadow),
+            0 10px 16px rgba(0,0,0,0.14);
+        transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
 
-        .mode-exercice {
-            background: #fff8e8;
-            border: 2px solid #ffe8a0;
-        }
+    .choix-card:active {
+        transform: translateY(5px);
+        box-shadow:
+            0 1px 0 var(--card-shadow),
+            0 4px 8px rgba(0,0,0,0.12);
+    }
 
-        .mode-chat {
-            background: #eef4ff;
-            border: 2px solid #c8d8ff;
-        }
+    .choix-card.quizz {
+        background: linear-gradient(145deg, var(--light), var(--main));
+        --card-shadow: var(--shadow);
+    }
 
-        .mode-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            flex-shrink: 0;
-        }
+    .choix-card.ia {
+        background: linear-gradient(145deg, #c9a9ff, #9c72e8);
+        --card-shadow: #7953c7;
+    }
 
-        .mode-exercice .mode-icon { background: #ffe8a0; }
-        .mode-chat .mode-icon { background: #c8d8ff; }
+    .choix-icon {
+        width: 54px;
+        height: 54px;
+        flex-shrink: 0;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-        .mode-info { flex: 1; }
+    .choix-icon svg {
+        width: 28px;
+        height: 28px;
+        stroke: #fff;
+        stroke-width: 2.2;
+        fill: none;
+    }
 
-        .mode-name {
-            font-size: 15px;
-            font-weight: 900;
-            color: #222;
-            margin-bottom: 4px;
-        }
+    .choix-text { flex: 1; }
 
-        .mode-desc {
-            font-size: 12px;
-            font-weight: 600;
-            color: #888;
-            line-height: 1.4;
-        }
+    .choix-title {
+        font-size: 16px;
+        font-weight: 900;
+        color: #fff;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+        text-shadow: 0 1px 0 rgba(0,0,0,0.1);
+    }
 
-        .mode-arrow {
-            font-size: 20px;
-            color: #ccc;
-            font-weight: 700;
-        }
+    .choix-desc {
+        font-size: 12.5px;
+        font-weight: 700;
+        color: rgba(255,255,255,0.9);
+    }
 
-        /* NAV */
-        .nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 500px;
-            background: #fff;
-            border-top: 1px solid #eee;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0 16px;
-            z-index: 100;
-        }
+    /* ===== NAV ===== */
 
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            padding: 6px 10px;
-            border-radius: 12px;
-            cursor: pointer;
-            text-decoration: none;
-        }
+    .nav {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 500px;
+        background: #fff;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0 16px;
+    }
 
-        .nav-item.active { background: #f0f0ff; }
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        padding: 6px 10px;
+        border-radius: 12px;
+        text-decoration: none;
+    }
 
-        .nav-icon svg {
-            width: 22px;
-            height: 22px;
-            stroke: #bbb;
-            fill: none;
-            stroke-width: 1.8;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
+    .nav-item.active { background: #f0f0ff; }
 
-        .nav-item.active svg { stroke: #0000cc; }
-        .nav-label { font-size: 9px; font-weight: 700; color: #bbb; }
-        .nav-item.active .nav-label { color: #0000cc; }
-    </style>
+    .nav-icon svg {
+        width: 22px;
+        height: 22px;
+        stroke: #bbb;
+        fill: none;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .nav-item.active svg { stroke: #0000cc; }
+    .nav-label { font-size: 9px; font-weight: 700; color: #bbb; }
+    .nav-item.active .nav-label { color: #0000cc; }
+
+</style>
 </head>
 <body>
 
     <!-- HEADER -->
     <div class="header">
-        <div class="header-top">
-            <button class="back-btn" onclick="history.back()">‹</button>
-            <div>
-                <div class="chapter-title">Les fractions</div>
-                <div class="chapter-sub">Mathématiques · 4ème</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- NIVEAU -->
-    <div class="section-title">Comment tu te sens ? 🎯</div>
-
-    <div class="niveau-container">
-        <div class="niveau-btn" onclick="selectionnerNiveau(this)">
-            <div class="niveau-emoji">🟢</div>
-            <div class="niveau-text">Je débute</div>
-        </div>
-        <div class="niveau-btn" onclick="selectionnerNiveau(this)">
-            <div class="niveau-emoji">🟡</div>
-            <div class="niveau-text">J'ai des bases</div>
-        </div>
-        <div class="niveau-btn" onclick="selectionnerNiveau(this)">
-            <div class="niveau-emoji">🔴</div>
-            <div class="niveau-text">Je bloque</div>
-        </div>
-    </div>
-
-    <!-- COQ -->
-    <div class="coq-section">
-        <div class="coq-avatar">🐓</div>
-        <div class="coq-bubble">
-            <div class="coq-text">
-                Pas de panique ! Choisis comment tu veux travailler ce chapitre et on y va ensemble 💪
-            </div>
-        </div>
-    </div>
-
-    <!-- CHOIX MODE -->
-    <div class="mode-title">Que veux-tu faire ? 📚</div>
-
-    <div class="modes">
-
-        <a class="mode-card mode-exercice" href="exercice.html">
-            <div class="mode-icon">📝</div>
-            <div class="mode-info">
-                <div class="mode-name">Exercices progressifs</div>
-                <div class="mode-desc">Des exercices qui s'adaptent à ton niveau !!!</div>
-            </div>
-            <div class="mode-arrow">›</div>
+        <a class="back-btn" href="cours.html">
+            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-
-        <a class="mode-card mode-chat" href="chat.html">
-            <div class="mode-icon">💬</div>
-            <div class="mode-info">
-                <div class="mode-name">Explication par l'IA</div>
-                <div class="mode-desc">L'IA t'explique le cours jusqu'à ce que tu comprennes vraiment</div>
-            </div>
-            <div class="mode-arrow">›</div>
-        </a>
-
+        <div class="chapter-title" id="chapterTitle">Les fractions</div>
     </div>
+
+    <!-- SÉLECTEUR DE NIVEAU -->
+    <div class="niveau-box">
+        <button class="niveau-item vert selected" onclick="selectionnerNiveau(this, 'debute')">
+            <span class="niveau-circle"></span>
+            <span class="niveau-label">je débute</span>
+        </button>
+        <button class="niveau-item jaune" onclick="selectionnerNiveau(this, 'bases')">
+            <span class="niveau-circle"></span>
+            <span class="niveau-label">j'ai des bases</span>
+        </button>
+        <button class="niveau-item rouge" onclick="selectionnerNiveau(this, 'bloque')">
+            <span class="niveau-circle"></span>
+            <span class="niveau-label">je bloque</span>
+        </button>
+    </div>
+
+    <!-- MASCOTTE -->
+    <div class="mascot-row">
+        <div class="mascot-emoji">🐓</div>
+        <div class="mascot-bubble" id="mascotBubble">
+            On commence doucement avec les bases, c'est le meilleur moyen de bien comprendre !
+        </div>
+    </div>
+
+    <!-- CARTES DE CHOIX -->
+    <a class="choix-card quizz" href="exercice.html">
+        <div class="choix-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="choix-text">
+            <div class="choix-title">Exercices</div>
+            <div class="choix-desc">Des exercices qui s'adaptent à ton niveau</div>
+        </div>
+    </a>
+
+    <a class="choix-card ia" href="chat.html">
+        <div class="choix-icon">
+            <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="10" r="1.3"/><circle cx="15" cy="10" r="1.3"/><path d="M8 15h8" stroke-linecap="round"/></svg>
+        </div>
+        <div class="choix-text">
+            <div class="choix-title">Discuter avec l'IA</div>
+            <div class="choix-desc">L'IA t'explique jusqu'à ce que tu comprennes</div>
+        </div>
+    </a>
 
     <!-- NAV -->
-    <div class="nav">
-        <a class="nav-item active" href="accueil.html">
-            <div class="nav-icon">
-                <svg viewBox="0 0 24 24">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
-                </svg>
-            </div>
-            <div class="nav-label">Accueil</div>
+    <nav class="nav">
+        <a href="accueil.html" class="nav-item">
+            <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+            <span class="nav-label">Accueil</span>
         </a>
-        <a class="nav-item" href="actualites.html">
-            <div class="nav-icon">
-                <svg viewBox="0 0 24 24">
-                    <path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/>
-                    <path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/>
-                </svg>
-            </div>
-            <div class="nav-label">Actualité</div>
+        <a href="cours.html" class="nav-item">
+            <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+            <span class="nav-label">Cours</span>
         </a>
-        <a class="nav-item" href="progression.html">
-            <div class="nav-icon">
-                <svg viewBox="0 0 24 24">
-                    <line x1="18" y1="20" x2="18" y2="10"/>
-                    <line x1="12" y1="20" x2="12" y2="4"/>
-                    <line x1="6" y1="20" x2="6" y2="14"/>
-                </svg>
-            </div>
-            <div class="nav-label">Progrès</div>
+        <a href="ia.html" class="nav-item active">
+            <span class="nav-icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="10" r="1.2"/><circle cx="15" cy="10" r="1.2"/><path d="M8 15h8"/></svg></span>
+            <span class="nav-label">IA</span>
         </a>
-        <a class="nav-item" href="partagely.html">
-            <div class="nav-icon">
-                <svg viewBox="0 0 24 24">
-                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-                    <circle cx="9" cy="7" r="4"/>
-                    <path d="M23 21v-2a4 4 0 00-3-3.87"/>
-                    <path d="M16 3.13a4 4 0 010 7.75"/>
-                </svg>
-            </div>
-            <div class="nav-label">Partagely</div>
+        <a href="actualites.html" class="nav-item">
+            <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M18 18h-8M10 6h8v4h-8z"/></svg></span>
+            <span class="nav-label">Actus</span>
         </a>
-        <a class="nav-item" href="profil.html">
-            <div class="nav-icon">
-                <svg viewBox="0 0 24 24">
-                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                </svg>
-            </div>
-            <div class="nav-label">Profil</div>
+        <a href="progression.html" class="nav-item">
+            <span class="nav-icon"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+            <span class="nav-label">Progrès</span>
         </a>
-    </div>
+        <a href="profil.html" class="nav-item">
+            <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+            <span class="nav-label">Profil</span>
+        </a>
+    </nav>
 
     <script>
-        function selectionnerNiveau(btn) {
-            document.querySelectorAll('.niveau-btn').forEach(b => b.classList.remove('selected'))
-            btn.classList.add('selected')
+        const messages = {
+            debute: "On commence doucement avec les bases, c'est le meilleur moyen de bien comprendre !",
+            bases: "Parfait, on va consolider ça et passer directement aux choses un peu plus solides.",
+            bloque: "Pas de panique ! On reprend calmement depuis le début, étape par étape, avec moi."
+        };
+
+        function selectionnerNiveau(btn, niveau) {
+            document.querySelectorAll('.niveau-item').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+
+            const bulle = document.getElementById('mascotBubble');
+            bulle.style.opacity = 0;
+            setTimeout(() => {
+                bulle.textContent = messages[niveau];
+                bulle.style.opacity = 1;
+            }, 120);
         }
+
+        /* ===== PALETTE DE COULEURS (tourne en boucle automatiquement) =====
+           Reprend les couleurs déjà utilisées dans cours.html.
+           Ajoute d'autres jeux de couleurs ici si tu veux plus de variété —
+           une fois la palette épuisée, ça recommence au premier set tout seul. */
+        const palette = [
+            { light: "#ffc56f", main: "#f39f39", dark: "#df851f", shadow: "#bd6c16" }, // orange (fractions)
+            { light: "#fff8cf", main: "#fff1a7", dark: "#e5d36c", shadow: "#c5b544" }, // jaune (équations)
+            { light: "#d5baff", main: "#b890ff", dark: "#9c72e8", shadow: "#7953c7" }, // violet (géométrie)
+            { light: "#f5b7df", main: "#ed98cf", dark: "#d879b8", shadow: "#b75b98" }, // rose (statistiques)
+            { light: "#a9d8ff", main: "#64a9fd", dark: "#468de0", shadow: "#3470b8" }, // bleu (fonctions)
+            { light: "#d875a5", main: "#b8447e", dark: "#963362", shadow: "#702348" }, // bordeaux (trigonométrie)
+            { light: "#ff8f8a", main: "#ef5350", dark: "#c23a35", shadow: "#8f241f" }, // rouge (probabilités)
+            { light: "#b6a4ff", main: "#7a63f5", dark: "#5a46c7", shadow: "#3e3091" }, // indigo (calcul littéral)
+            { light: "#b6e98a", main: "#8fd14f", dark: "#5a9e2f", shadow: "#3f7a1e" }  // vert (ex: grammaire)
+        ];
+
+        /* Noms de chapitres encore à part, car le nom affiché n'est pas
+           déductible du slug tout seul (accents, pluriel, etc.) */
+        const noms = {
+            fractions: "Les fractions",
+            equations: "Les équations",
+            geometrie: "Géométrie",
+            statistiques: "Statistiques",
+            fonctions: "Fonctions",
+            trigonometrie: "Trigonométrie",
+            probabilites: "Probabilités",
+            "calcul-litteral": "Calcul littéral",
+            grammaire: "Grammaire"
+            // Ajoute ici le nom affiché de chaque nouveau chapitre.
+            // Si un slug n'a pas d'entrée, son nom de slug est utilisé tel quel.
+        };
+
+        /* Transforme le nom du chapitre en un nombre stable (toujours le même
+           pour un même nom), pour piocher une couleur dans la palette.
+           → chaque chapitre garde TOUJOURS la même couleur, et la palette
+           tourne en boucle automatiquement une fois tous les sets utilisés. */
+        function hashSlug(str) {
+            let h = 0;
+            for (let i = 0; i < str.length; i++) {
+                h = (h * 31 + str.charCodeAt(i)) >>> 0;
+            }
+            return h;
+        }
+
+        (function appliquerChapitre() {
+            const params = new URLSearchParams(window.location.search);
+            const slug = params.get('chapitre') || 'fractions';
+
+            const index = hashSlug(slug) % palette.length;
+            const data = palette[index];
+            const nom = noms[slug] || slug;
+
+            document.documentElement.style.setProperty('--light', data.light);
+            document.documentElement.style.setProperty('--main', data.main);
+            document.documentElement.style.setProperty('--dark', data.dark);
+            document.documentElement.style.setProperty('--shadow', data.shadow);
+
+            document.getElementById('chapterTitle').textContent = nom;
+        })();
     </script>
 
 </body>
