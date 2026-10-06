@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPPIA - Jeux</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Nunito', sans-serif; background: #f5f5f5; color: #333; max-width: 500px; margin: 0 auto; min-height: 100vh; padding-bottom: 40px; }
+
+    header { background: #00aa00; color: #fff; padding: 18px 16px 22px; display: flex; align-items: center; gap: 12px; }
+    .back-btn { width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .back-btn svg { width: 22px; height: 22px; stroke: #fff; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .back-btn:focus-visible, .jeu:focus-visible { outline: 4px solid #0000cc; outline-offset: 3px; }
+    header h1 { font-size: 22px; font-weight: 900; }
+    .serie { margin-left: auto; display: none; align-items: center; gap: 4px; background: #fff; color: #e07b00; border-radius: 14px; padding: 5px 10px; font-weight: 900; font-size: 15px; }
+    .serie.visible { display: flex; }
+    .serie svg { width: 18px; height: 18px; fill: #ff9600; }
+
+    main { padding: 18px 16px; display: flex; flex-direction: column; gap: 16px; }
+    .chapitre { font-size: 13px; font-weight: 800; color: #777; }
+    .chapitre b { color: #333; }
+
+    .jeu {
+        display: flex; align-items: center; gap: 14px; text-decoration: none; color: #fff;
+        background: var(--fond); border: 6px solid var(--bord); border-radius: 28px;
+        box-shadow: 0 7px 0 var(--ombre); padding: 16px 16px;
+    }
+    .jeu:active { transform: translateY(4px); box-shadow: 0 3px 0 var(--ombre); }
+    .jeu .ico { width: 64px; height: 64px; border-radius: 20px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .jeu .ico svg { width: 36px; height: 36px; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    .jeu .txt { flex: 1; min-width: 0; }
+    .jeu h2 { font-size: 20px; font-weight: 900; margin-bottom: 2px; }
+    .jeu p { font-size: 13px; font-weight: 700; line-height: 1.35; opacity: 0.95; }
+    .jeu .etat { display: inline-block; margin-top: 6px; background: #fff; color: var(--fond); font-size: 11px; font-weight: 900; padding: 2px 10px; border-radius: 10px; text-transform: uppercase; letter-spacing: .04em; }
+    .jeu .go { width: 44px; height: 44px; border-radius: 16px; background: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .jeu .go svg { width: 22px; height: 22px; stroke: var(--fond); stroke-width: 3.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+    .duel  { --fond: #d9442f; --bord: #f5a597; --ombre: #a8321f; }
+    .defi  { --fond: #e07b00; --bord: #ffc56f; --ombre: #b05f00; }
+
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+    <header>
+        <a class="back-btn" href="accueil.html" aria-label="Retour"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></a>
+        <h1>Jeux</h1>
+        <div class="serie" id="serie" aria-label="Série de jours"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 4-3 5.5-3 9.5A3 3 0 0012 15a3 3 0 003-3.2c0-1-.4-1.8-1-2.6 3 1 5 3.7 5 7.3A7 7 0 015 16.5C5 11 10 9 12 2z"/></svg><span id="serieNb">0</span></div>
+    </header>
+
+    <main>
+        <div class="chapitre">Chapitre : <b id="chapitreNom">Les fractions</b></div>
+
+        <a class="jeu defi" id="lienDefi" href="defi.html">
+            <div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.700 1.400 6.800L12 17.200 5.900 20.600l1.400-6.800L2.200 9.100l6.900-.8z"/></svg></div>
+            <div class="txt"><h2>Défi du jour</h2><p>5 questions, une fois par jour. Garde ta série.</p><span class="etat" id="etatDefi">À faire</span></div>
+            <div class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></div>
+        </a>
+
+        <a class="jeu duel" id="lienDuel" href="duel.html">
+            <div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19L19 5M14 5h5v5M5 5l14 14M5 10V5h5"/></svg></div>
+            <div class="txt"><h2>Duel</h2><p>Affronte le rival. Gagne des points, lance tes cartes.</p></div>
+            <div class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></div>
+        </a>
+    </main>
+
+    <script>
+        const noms = { fractions: "Les fractions" };   // ajoute ici les noms de tes chapitres (comme dans ia.html)
+        const params = new URLSearchParams(location.search);
+        let slug = params.get("chapitre");
+        try { if (slug) localStorage.setItem("chapitre_courant", slug); else slug = localStorage.getItem("chapitre_courant"); } catch (e) {}
+        slug = slug || "fractions";
+        document.getElementById("chapitreNom").textContent = noms[slug] || slug;
+        const q = "?chapitre=" + encodeURIComponent(slug) + "&niveau=debute";
+        ["lienDefi", "lienDuel"].forEach(id => { const a = document.getElementById(id); a.href = a.getAttribute("href").split("?")[0] + q; });
+
+        function jourLocal(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+        try {
+            const serie = parseInt(localStorage.getItem("serie_jours"), 10) || 0;
+            const dernier = localStorage.getItem("defi_dernier_jour");
+            const fait = dernier === jourLocal(new Date());
+            const hier = dernier === jourLocal(new Date(Date.now() - 86400000));
+            if (serie > 0 && (fait || hier)) { document.getElementById("serieNb").textContent = serie; document.getElementById("serie").classList.add("visible"); }
+            if (fait) document.getElementById("etatDefi").textContent = "Fait aujourd'hui";
+        } catch (e) {}
+    </script>
+</body>
+</html>
