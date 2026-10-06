@@ -39,49 +39,16 @@
 
     .duel  { --fond: #d9442f; --bord: #f5a597; --ombre: #a8321f; }
     .defi  { --fond: #e07b00; --bord: #ffc56f; --ombre: #b05f00; }
+    .nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 500px; background: #fff; border-top: 1px solid #eee; display: flex; justify-content: space-around; padding: 10px 0 16px; z-index: 100; }
+    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 10px; border-radius: 12px; cursor: pointer; text-decoration: none; }
+    .nav-item.active { background: #f0f0ff; }
+    .nav-icon svg { width: 22px; height: 22px; stroke: #bbb; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .nav-item.active svg { stroke: #0000cc; }
+    .nav-label { font-size: 9px; font-weight: 700; color: #bbb; }
+    .nav-item.active .nav-label { color: #0000cc; }
     
     @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
-
-    .nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 500px;
-            background: #fff;
-            border-top: 1px solid #eee;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0 16px;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            padding: 6px 10px;
-            border-radius: 12px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .nav-item.active { background: #f0f0ff; }
-
-        .nav-icon svg {
-            width: 22px;
-            height: 22px;
-            stroke: #bbb;
-            fill: none;
-            stroke-width: 1.8;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .nav-item.active svg { stroke: #0000cc; }
-        .nav-label { font-size: 9px; font-weight: 700; color: #bbb; }
-        .nav-item.active .nav-label { color: #0000cc; }
+    
 </style>
 </head>
 <body>
@@ -106,28 +73,7 @@
             <div class="go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></div>
         </a>
     </main>
-
-    <script>
-        const noms = { fractions: "Les fractions" };   // ajoute ici les noms de tes chapitres (comme dans ia.html)
-        const params = new URLSearchParams(location.search);
-        let slug = params.get("chapitre");
-        try { if (slug) localStorage.setItem("chapitre_courant", slug); else slug = localStorage.getItem("chapitre_courant"); } catch (e) {}
-        slug = slug || "fractions";
-        document.getElementById("chapitreNom").textContent = noms[slug] || slug;
-        const q = "?chapitre=" + encodeURIComponent(slug) + "&niveau=debute";
-        ["lienDefi", "lienDuel"].forEach(id => { const a = document.getElementById(id); a.href = a.getAttribute("href").split("?")[0] + q; });
-
-        function jourLocal(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
-        try {
-            const serie = parseInt(localStorage.getItem("serie_jours"), 10) || 0;
-            const dernier = localStorage.getItem("defi_dernier_jour");
-            const fait = dernier === jourLocal(new Date());
-            const hier = dernier === jourLocal(new Date(Date.now() - 86400000));
-            if (serie > 0 && (fait || hier)) { document.getElementById("serieNb").textContent = serie; document.getElementById("serie").classList.add("visible"); }
-            if (fait) document.getElementById("etatDefi").textContent = "Fait aujourd'hui";
-        } catch (e) {}
-    </script>
-    <div class="nav">
+     <div class="nav">
         <a class="nav-item active" href="accueil.html">
             <div class="nav-icon">
                 <svg viewBox="0 0 24 24">
@@ -156,14 +102,13 @@
             </div>
             <div class="nav-label">Progrès</div>
         </a>
-        <a class="nav-item" href="jeux.html">
-            <div class="nav-icon">
-                <svg viewBox="0 0 24 24">
-                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-                    <circle cx="9" cy="7" r="4"/>
-                    <path d="M23 21v-2a4 4 0 00-3-3.87"/>
-                    <path d="M16 3.13a4 4 0 010 7.75"/>
-                </svg>
+         <a class="nav-item active" href="jeux.html" aria-current="page">
+            <div class="nav-icon"><svg viewBox="0 0 24 24">
+                <line x1="6" y1="12" x2="10" y2="12"/>
+                <line x1="8" y1="10" x2="8" y2="14"/>
+                <circle cx="15" cy="11" r="0.6"/><circle cx="18" cy="13" r="0.6"/>
+                <path d="M17.3 5H6.7a4 4 0 00-3.9 3.200L1.500 15.300A3 3 0 007.400 17l1.200-2h6.800l1.200 2a3 3 0 005.900-1.700l-1.300-7.100A4 4 0 0017.300 5z"/>
+            </svg>
             </div>
             <div class="nav-label">Jeux</div>
         </a>
@@ -177,5 +122,26 @@
             <div class="nav-label">Profil</div>
         </a>
     </div>
+
+    <script>
+        const noms = { fractions: "Les fractions" };   // ajoute ici les noms de tes chapitres (comme dans ia.html)
+        const params = new URLSearchParams(location.search);
+        let slug = params.get("chapitre");
+        try { if (slug) localStorage.setItem("chapitre_courant", slug); else slug = localStorage.getItem("chapitre_courant"); } catch (e) {}
+        slug = slug || "fractions";
+        document.getElementById("chapitreNom").textContent = noms[slug] || slug;
+        const q = "?chapitre=" + encodeURIComponent(slug) + "&niveau=debute";
+        ["lienDefi", "lienDuel"].forEach(id => { const a = document.getElementById(id); a.href = a.getAttribute("href").split("?")[0] + q; });
+
+        function jourLocal(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+        try {
+            const serie = parseInt(localStorage.getItem("serie_jours"), 10) || 0;
+            const dernier = localStorage.getItem("defi_dernier_jour");
+            const fait = dernier === jourLocal(new Date());
+            const hier = dernier === jourLocal(new Date(Date.now() - 86400000));
+            if (serie > 0 && (fait || hier)) { document.getElementById("serieNb").textContent = serie; document.getElementById("serie").classList.add("visible"); }
+            if (fait) document.getElementById("etatDefi").textContent = "Fait aujourd'hui";
+        } catch (e) {}
+    </script>
 </body>
 </html>
